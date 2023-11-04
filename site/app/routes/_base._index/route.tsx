@@ -89,7 +89,7 @@ export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
 
 export default function Index() {
     return (
-        <div className='min-w-full min-h-screen bg-slate-100 flex items-center justify-center'>
+        <div className='w-full min-h-screen  flex items-center justify-center'>
             <div className='text-center text-3xl'>
                 <h1 className=''> Nawe Personalizado</h1>
                 <p>🚧</p>

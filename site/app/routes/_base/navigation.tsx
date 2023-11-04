@@ -54,6 +54,7 @@ export function Navigation({
         <FocusTrap active={is_open}>
             <div
                 className=''
+                id='nav-wrapper'
                 onKeyDown={(evt) => {
                     if (!is_open) {
                         return;
@@ -61,6 +62,20 @@ export function Navigation({
                     if (evt.key == "Escape") {
                         close_menu();
                     }
+                }}
+                onClick={(evt) => {
+                    if (!is_open) {
+                        return;
+                    }
+                    const navigation_menu_items_container =
+                        document.querySelector("#navigation-menu-items");
+                    if (!navigation_menu_items_container) {
+                        return;
+                    }
+                    if (navigation_menu_items_container.contains(evt.target as Node)) {
+                        return;
+                    }
+                    close_menu();
                 }}
             >
                 {/* menu header */}
@@ -153,7 +168,10 @@ function Menu({
                 >
                     <div className='relative z-30 w-full   h-[calc(100dvh_-_70px)] mt-[70px] flex justify-center overflow-y-scroll'>
                         <div className='max-w-screen-xl mx-auto w-full px-[30px] bg-white ml-auto  '>
-                            <div className='md:max-w-[300px]'>
+                            <div
+                                className='md:max-w-[300px]'
+                                id='navigation-menu-items'
+                            >
                                 <MenuNavigationLinks links={links} />
                             </div>
                         </div>
