@@ -88,14 +88,17 @@ export default function BaseLayout() {
                     set_is_open(!is_nav_open);
                 }}
             />
-            <div>
-                <main
-                    className={clsx("transition-all duration-500", is_nav_open ? "scale-90" : "")}
-                >
+            <div
+                className={clsx(
+                    "transition-all duration-500 ",
+                    is_nav_open ? "motion-safe:scale-90 " : ""
+                )}
+            >
+                <main>
                     <Outlet />
                 </main>
+                <Footer />
             </div>
-            <Footer />
         </div>
     );
 }
