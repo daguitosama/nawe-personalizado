@@ -1,4 +1,4 @@
-import type { V2_MetaFunction, LoaderArgs } from "@remix-run/cloudflare";
+import type { V2_MetaFunction, LoaderArgs, HeadersFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { SEO } from "~/lib/seo.server";
 
@@ -85,6 +85,20 @@ export async function loader({ request, context }: LoaderArgs) {
 
 export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
     return data.meta;
+};
+
+export const headers: HeadersFunction = ({
+    actionHeaders,
+    loaderHeaders,
+    parentHeaders,
+    errorHeaders,
+}) => {
+    return {
+        "Server-Timing": [
+            // loaderHeaders.get("Server-Timing") as string,
+            parentHeaders.get("Server-Timing") as string,
+        ].join(","),
+    };
 };
 
 export default function Index() {
