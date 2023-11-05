@@ -81,7 +81,7 @@ export default function BaseLayout() {
     const { navigation_links } = useLoaderData<typeof loader>();
     const [is_nav_open, set_is_open] = useState<boolean>(false);
     return (
-        <div>
+        <div className='antialiased'>
             <Navigation
                 links={navigation_links}
                 signal_nav_toggle={() => {
@@ -94,10 +94,12 @@ export default function BaseLayout() {
                     is_nav_open ? "motion-safe:scale-90 " : ""
                 )}
             >
-                <main>
+                <main className='pt-[70px]'>
                     <Outlet />
                 </main>
-                <Footer />
+                <div className='mt-[60px]'>
+                    <Footer />
+                </div>
             </div>
         </div>
     );

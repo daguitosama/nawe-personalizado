@@ -167,7 +167,7 @@ function Menu({
                     leaveTo='-translate-x-full '
                 >
                     <div className='relative z-30 w-full  h-[calc(100dvh_-_70px)] mt-[70px] bg-white flex justify-center overflow-y-scroll'>
-                        <div className='max-w-screen-xl mx-auto w-full px-[30px]   ml-auto  '>
+                        <div className='max-w-screen-xl mx-auto w-full px-[30px]  '>
                             <div
                                 className='md:max-w-[300px]'
                                 id='navigation-menu-items'
