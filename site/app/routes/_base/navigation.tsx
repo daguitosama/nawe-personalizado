@@ -85,7 +85,7 @@ export function Navigation({
                             <div className=''>
                                 <Link
                                     to='/'
-                                    className='h-full block'
+                                    className='h-full block focus:outline-none'
                                     onClick={() => {
                                         if (!is_open) {
                                             return;
@@ -94,12 +94,6 @@ export function Navigation({
                                     }}
                                 >
                                     <Logo />
-                                    {/* <img
-                                src='/img/nawe-logo.svg'
-                                alt='NAWE Logo'
-                                height={24}
-                                width={113}
-                            /> */}
                                 </Link>
                             </div>
                             <div className=''>
