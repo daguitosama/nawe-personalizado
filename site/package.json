@@ -20,6 +20,7 @@
   "devDependencies": {
     "@cloudflare/workers-types": "^3.19.0",
     "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.17",
     "@remix-run/dev": "^1.19.3",
     "@remix-run/eslint-config": "^1.19.3",
     "@remix-run/server-runtime": "^1.19.3",

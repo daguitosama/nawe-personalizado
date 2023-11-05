@@ -5,6 +5,7 @@ import { MenuLink, Navigation } from "./navigation";
 import { useState } from "react";
 import clsx from "clsx";
 import get_links from "./get_links.server";
+import { Footer } from "./footer";
 
 type LoaderData = {
     navigation_links: MenuLink[];
@@ -94,7 +95,7 @@ export default function BaseLayout() {
                     <Outlet />
                 </main>
             </div>
-            <footer>Footer</footer>
+            <Footer />
         </div>
     );
 }
