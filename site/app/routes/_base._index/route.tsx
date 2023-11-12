@@ -1,18 +1,17 @@
-import type { V2_MetaFunction, LoaderArgs, HeadersFunction } from "@remix-run/cloudflare";
+import type { MetaFunction, LoaderFunctionArgs, HeadersFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { Home_Block, ServiceCard } from "./get_home_block.server";
+import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
-import { Image } from "~/lib/types";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading } from "~/components/Heading";
-import { HTMLProps } from "react";
+import type { HTMLProps } from "react";
 
 type LoaderData = {
-    meta: ReturnType<V2_MetaFunction>;
+    meta: ReturnType<MetaFunction>;
     home: Home_Block;
 };
 
-export async function loader({ request, context }: LoaderArgs) {
+export async function loader({ request, context }: LoaderFunctionArgs) {
     // temp static home block
     const s_home: Home_Block = {
         seo: {
@@ -70,8 +69,8 @@ export async function loader({ request, context }: LoaderArgs) {
     });
 }
 
-export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
-    return data.meta;
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+    return data ? data.meta : [{ title: "Meta not found" }];
 };
 
 export const headers: HeadersFunction = ({
