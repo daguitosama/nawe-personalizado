@@ -1,5 +1,5 @@
-import { SEO } from "~/lib/seo.server";
-import { Image } from "~/lib/types";
+import type { SEO } from "~/lib/seo.server";
+import type { Image } from "~/lib/types";
 
 /* Services Block */
 type ServicesBlock = {
@@ -18,29 +18,13 @@ export type ServiceCard = {
 type ArticlesBlock = {
     title: string;
     route: string;
-    image: Image;
+    card: {
+        title: string;
+        image: Image;
+    };
 };
 
 /* End of Articles Block */
-
-/* Paquetes y Ofertas */
-type Home_Pack_Block = {
-    id: string;
-    image: Image;
-    label: string;
-    route: string;
-};
-
-type Home_Packs_Section_Block = {
-    title: string;
-    packs: Home_Pack_Block[];
-};
-
-type Home_Offers_Section_Block = {
-    title: string;
-    links: { label: string; route: string }[];
-};
-/* End of Paquetes y Ofertas */
 
 export type Home_Block = {
     seo: SEO;
@@ -49,5 +33,25 @@ export type Home_Block = {
         desktop: Image;
     };
     services_block: ServicesBlock;
+    articles_block: ArticlesBlock;
     // packs: Home_Packs_Section_Block;
 };
+
+/* Paquetes y Ofertas for later */
+// type Home_Pack_Block = {
+//     id: string;
+//     image: Image;
+//     label: string;
+//     route: string;
+// };
+
+// type Home_Packs_Section_Block = {
+//     title: string;
+//     packs: Home_Pack_Block[];
+// };
+
+// type Home_Offers_Section_Block = {
+//     title: string;
+//     links: { label: string; route: string }[];
+// };
+/* End of Paquetes y Ofertas */

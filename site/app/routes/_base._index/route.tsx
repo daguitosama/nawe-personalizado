@@ -1,11 +1,12 @@
 import type { V2_MetaFunction, LoaderArgs, HeadersFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { Home_Block, ServiceCard } from "./get_home_block.server";
+import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
-import { Image } from "~/lib/types";
+// import type { Image } from "~/lib/types";
 import { FramedContent } from "~/components/FramedContent";
-import { Heading } from "~/components/Heading";
-import { HTMLProps } from "react";
+import { Heading, Heading_l2 } from "~/components/Heading";
+import type { HTMLProps } from "react";
+import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 
 type LoaderData = {
     meta: ReturnType<V2_MetaFunction>;
@@ -53,7 +54,7 @@ export async function loader({ request, context }: LoaderArgs) {
                 },
 
                 {
-                    id: "1",
+                    id: "2",
                     image: {
                         alt: "foo",
                         url: "/img/07.webp",
@@ -62,6 +63,17 @@ export async function loader({ request, context }: LoaderArgs) {
                     route: "/servicios/serigraia",
                 },
             ],
+        },
+        articles_block: {
+            route: "/articles",
+            title: "Artículos",
+            card: {
+                image: {
+                    alt: "articulos",
+                    url: "/img/12.webp",
+                },
+                title: "Importados y Confeccionados",
+            },
         },
     };
     return json<LoaderData>({
@@ -93,8 +105,9 @@ export default function Index() {
     return (
         <div>
             <HeroImage hero_image={loaderData.home.hero_image} />
-            <FramedContent className='mt-[50px] pb-10'>
+            <FramedContent className='mt-[50px] pb-10 grid gap-16'>
                 <ServicesBlock block={loaderData.home.services_block} />
+                <ArticlesBlock block={loaderData.home.articles_block} />
             </FramedContent>
         </div>
     );
@@ -158,26 +171,69 @@ interface ServiceBlockCardProps extends HTMLProps<HTMLDivElement> {
 }
 function ServiceBlockCard({ card, ...props }: ServiceBlockCardProps) {
     return (
-        <li>
+        <li className='group grid gap-3'>
             {/* img */}
             <Link
                 to={card.route}
-                className='block mt-3 relative'
+                className='block relative overflow-hidden'
             >
                 <img
                     src={card.image.url}
                     alt={card.image.alt}
-                    className='aspect-square hover:scale-105 transition-all duration-300 motion-reduce:duration-0'
+                    className='aspect-square group-hover:scale-105 transition-all duration-300 motion-reduce:duration-0'
                 />
             </Link>
 
             {/* title */}
             <Link
                 to={card.route}
-                className='block mt-3'
+                className=' flex items-center'
             >
                 <h2 className='font-bold'>{card.label}</h2>
+                <span
+                    className='relative '
+                    aria-hidden
+                >
+                    <ArrowSmallRightIcon
+                        aria-hidden
+                        className='w-4 h-4 relative left-0 group-hover:left-2 opacity-0 group-hover:opacity-100 transition-all duration-300'
+                    />
+                </span>
             </Link>
         </li>
+    );
+}
+
+function ArticlesBlock({ block }: { block: Home_Block["articles_block"] }) {
+    return (
+        <div className='grid gap-y-12'>
+            <Heading_l2>{block.title}</Heading_l2>
+            <div className='group relative overflow-hidden grid gap-3'>
+                <div className='relative w-full overflow-hidden'>
+                    <img
+                        src={block.card.image.url}
+                        alt={block.card.image.alt}
+                        className='aspect-square group-hover:scale-105 transition-all duration-300 motion-reduce:duration-0'
+                    />
+                </div>
+                <h3 className='font-bold flex items-center'>
+                    <Link
+                        to={block.route}
+                        className=''
+                    >
+                        {block.card.title}
+                    </Link>
+                    <span
+                        className='relative '
+                        aria-hidden
+                    >
+                        <ArrowSmallRightIcon
+                            aria-hidden
+                            className='w-4 h-4 relative left-0 group-hover:left-2 opacity-0 group-hover:opacity-100 transition-all duration-300'
+                        />
+                    </span>
+                </h3>
+            </div>
+        </div>
     );
 }
