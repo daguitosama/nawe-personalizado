@@ -4,7 +4,12 @@ import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading } from "~/components/Heading";
-import type { HTMLProps } from "react";
+import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
+
+import {
+    //  useState,
+    type HTMLProps,
+} from "react";
 
 type LoaderData = {
     meta: ReturnType<MetaFunction>;
@@ -52,7 +57,7 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
                 },
 
                 {
-                    id: "1",
+                    id: "2",
                     image: {
                         alt: "foo",
                         url: "/img/07.webp",
@@ -156,26 +161,44 @@ interface ServiceBlockCardProps extends HTMLProps<HTMLDivElement> {
     card: ServiceCard;
 }
 function ServiceBlockCard({ card, ...props }: ServiceBlockCardProps) {
+    // const [mode, set_mode] = useState<'normal' | 'hover'>('')
+    // function onMouseEnter() {
+    //     console.log("onMouseEnter");
+    // }
+
+    // function onMouseLeave() {
+    //     console.log("onMouseLeave");
+    // }
     return (
-        <li>
+        <li
+            // onMouseEnter={onMouseEnter}
+            // onMouseLeave={onMouseLeave}
+            className='group'
+        >
             {/* img */}
             <Link
                 to={card.route}
-                className='block mt-3 relative'
+                className='block mt-3 relative overflow-hidden'
             >
                 <img
                     src={card.image.url}
                     alt={card.image.alt}
-                    className='aspect-square hover:scale-105 transition-all duration-300 motion-reduce:duration-0'
+                    className='aspect-square group-hover:scale-105 transition-all duration-300 motion-reduce:duration-0'
                 />
             </Link>
 
             {/* title */}
             <Link
                 to={card.route}
-                className='block mt-3'
+                className=' mt-3 flex items-center gap-2'
             >
                 <h2 className='font-bold'>{card.label}</h2>
+                <span className='relative border'>
+                    <ArrowSmallRightIcon
+                        aria-hidden
+                        className='w-4 h-4   left-0 group-hover:left-2 opacity-0 group-hover:opacity-100 transition-all duration-300'
+                    />
+                </span>
             </Link>
         </li>
     );

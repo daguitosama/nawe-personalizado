@@ -12,55 +12,57 @@ type LoaderData = {
 };
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
-    // const _sample_compound_navigation_links: MenuLink[] = [
-    //     {
-    //         id: "compound-link-0",
-    //         label: "Servicios",
-    //         links: [
-    //             // suministros
-    //             {
-    //                 id: "id-0",
-    //                 label: "Serigrafía ",
-    //                 route: "/servicios/serigrafia",
-    //             },
-    //             // Confección
-    //             {
-    //                 id: "id-1",
-    //                 label: "Etiquetas",
-    //                 route: "/servicios/etiquetas",
-    //             },
-    //             // Impresiones en Serigrafía y Sublimación
-    //             {
-    //                 id: "id-2",
-    //                 label: "Empaquetado",
-    //                 route: "/servicios/empaquetado",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         id: "2",
-    //         label: "Artículos Importados y Confeccionados ",
-    //         route: "/articulos-importados-y-confeccionados",
-    //     },
-    //     {
-    //         id: "3",
-    //         label: "Contactos",
-    //         route: "/contacto",
-    //     },
-    // ];
-    const get_links_op = await get_links({ token: context.ST_ACCESS_TOKEN });
-    if (get_links_op.err) {
-        throw get_links_op.err;
-    }
+    const _sample_compound_navigation_links: MenuLink[] = [
+        {
+            id: "compound-link-0",
+            label: "Servicios",
+            links: [
+                // suministros
+                {
+                    id: "id-0",
+                    label: "Serigrafía ",
+                    route: "/servicios/serigrafia",
+                },
+                // Confección
+                {
+                    id: "id-1",
+                    label: "Etiquetas",
+                    route: "/servicios/etiquetas",
+                },
+                // Impresiones en Serigrafía y Sublimación
+                {
+                    id: "id-2",
+                    label: "Empaquetado",
+                    route: "/servicios/empaquetado",
+                },
+            ],
+        },
+        {
+            id: "2",
+            label: "Artículos Importados y Confeccionados ",
+            route: "/articulos-importados-y-confeccionados",
+        },
+        {
+            id: "3",
+            label: "Contactos",
+            route: "/contacto",
+        },
+    ];
+    // const get_links_op = await get_links({ token: context.ST_ACCESS_TOKEN });
+    // if (get_links_op.err) {
+    //     throw get_links_op.err;
+    // }
 
     return json<LoaderData>(
         {
-            navigation_links: get_links_op.ok.links,
+            navigation_links: _sample_compound_navigation_links, // get_links_op.ok.links,
         },
 
         {
             headers: {
-                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${get_links_op.ok.time}`,
+                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${
+                    0 /*get_links_op.ok.time*/
+                }`,
             },
         }
     );
