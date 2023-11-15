@@ -7,15 +7,16 @@ import { FramedContent } from "~/components/FramedContent";
 import { Heading, Heading_l2 } from "~/components/Heading";
 import type { HTMLProps } from "react";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
+import { get_home_block } from "./get_home_block.server";
 
 type LoaderData = {
     meta: ReturnType<V2_MetaFunction>;
     home: Home_Block;
 };
 
-export async function loader({ request, context }: LoaderArgs) {
+export async function loader({ context }: LoaderArgs) {
     // temp static home block
-    const s_home: Home_Block = {
+    const _s_home: Home_Block = {
         seo: {
             title: "Personaliza tu talla, tu lo pides, NAWE Personalizado lo entrega!",
             description: "",
@@ -65,9 +66,9 @@ export async function loader({ request, context }: LoaderArgs) {
             ],
         },
         articles_block: {
-            route: "/articles",
             title: "Artículos",
             card: {
+                route: "/articles",
                 image: {
                     alt: "articulos",
                     url: "/img/12.webp",
@@ -76,10 +77,23 @@ export async function loader({ request, context }: LoaderArgs) {
             },
         },
     };
-    return json<LoaderData>({
-        meta: context.seo_meta_tags(s_home.seo, "/"),
-        home: s_home,
-    });
+    const get_home_op = await get_home_block({ token: context.ST_ACCESS_TOKEN });
+
+    if (get_home_op.err) {
+        throw get_home_op.err;
+    }
+
+    return json<LoaderData>(
+        {
+            meta: context.seo_meta_tags(get_home_op.ok.home.seo, "/"),
+            home: get_home_op.ok.home,
+        },
+        {
+            headers: {
+                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${get_home_op.ok.time}`,
+            },
+        }
+    );
 }
 
 export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
@@ -87,10 +101,10 @@ export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
 };
 
 export const headers: HeadersFunction = ({
-    actionHeaders,
-    loaderHeaders,
+    // actionHeaders,
+    // loaderHeaders,
     parentHeaders,
-    errorHeaders,
+    // errorHeaders,
 }) => {
     return {
         "Server-Timing": [
@@ -169,7 +183,7 @@ function ServiceBlockCards({ service_cards, ...props }: ServiceBlockCardsProps) 
 interface ServiceBlockCardProps extends HTMLProps<HTMLDivElement> {
     card: ServiceCard;
 }
-function ServiceBlockCard({ card, ...props }: ServiceBlockCardProps) {
+function ServiceBlockCard({ card }: ServiceBlockCardProps) {
     return (
         <li className='group grid gap-3'>
             {/* img */}
@@ -208,7 +222,7 @@ function ArticlesBlock({ block }: { block: Home_Block["articles_block"] }) {
     return (
         <div className='grid gap-y-12'>
             <Heading_l2>{block.title}</Heading_l2>
-            <div className='group relative overflow-hidden grid gap-3'>
+            <div className='group relative overflow-hidden grid gap-3 max-w-[450px] mx-auto'>
                 <div className='relative w-full overflow-hidden'>
                     <img
                         src={block.card.image.url}
@@ -218,7 +232,7 @@ function ArticlesBlock({ block }: { block: Home_Block["articles_block"] }) {
                 </div>
                 <h3 className='font-bold flex items-center'>
                     <Link
-                        to={block.route}
+                        to={block.card.route}
                         className=''
                     >
                         {block.card.title}

@@ -1,8 +1,8 @@
 import { new_timer } from "~/lib/misc.server";
-import { MenuLink, NavigationLink } from "./navigation";
+import type { MenuLink, NavigationLink } from "./navigation";
 import z from "zod";
 
-const query_response_sample = {
+const _query_response_sample = {
     data: {
         GlobalsettingsItems: {
             items: [

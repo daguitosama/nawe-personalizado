@@ -1,7 +1,7 @@
 import type { HeadersFunction, LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { MenuLink, Navigation } from "./navigation";
+import { type MenuLink, Navigation } from "./navigation";
 import { useState } from "react";
 import clsx from "clsx";
 import get_links from "./get_links.server";
@@ -11,7 +11,7 @@ type LoaderData = {
     navigation_links: MenuLink[];
 };
 
-export async function loader({ request, context }: LoaderArgs) {
+export async function loader({ context }: LoaderArgs) {
     const _sample_compound_navigation_links: MenuLink[] = [
         {
             id: "compound-link-0",
