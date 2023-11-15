@@ -1,5 +1,4 @@
-import type { SEO } from "~/lib/seo.server";
-import type { Image } from "~/lib/types";
+import type { Image, SEO } from "~/lib/types";
 import z from "zod";
 import { new_timer } from "~/lib/misc.server";
 /* Services Block */

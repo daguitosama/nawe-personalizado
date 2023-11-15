@@ -1,8 +1,4 @@
-export type SEO = {
-    title: string;
-    description: string;
-    og_image: string;
-};
+import { type SEO } from "./types";
 
 /**
  * Returns the required SEO meta tags
