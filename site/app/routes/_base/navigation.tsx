@@ -237,17 +237,12 @@ interface MenuBtnProps {
      * Click handler
      */
     on_click: () => void;
-
-    // /**
-    //  * Classes
-    //  */
-    // calssName?: string;
 }
 
 /**
  * NavigationMobileMenuBtn
  */
-function MenuButton({ is_open, on_click, ...props }: MenuBtnProps) {
+function MenuButton({ is_open, on_click }: MenuBtnProps) {
     return (
         <button
             aria-label={is_open ? "Abrir menú de navegación" : "Cerrar menú de navegación"}
