@@ -67,10 +67,10 @@ export async function loader({ context }: LoaderArgs) {
 }
 
 export const headers: HeadersFunction = ({
-    actionHeaders,
+    // actionHeaders,
     loaderHeaders,
-    parentHeaders,
-    errorHeaders,
+    // parentHeaders,
+    // errorHeaders,
 }) => {
     return {
         "Server-Timing": loaderHeaders.get("Server-Timing") as string,

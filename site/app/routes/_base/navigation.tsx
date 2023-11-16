@@ -166,7 +166,10 @@ function Menu({
                                 className='md:max-w-[300px]'
                                 id='navigation-menu-items'
                             >
-                                <MenuNavigationLinks links={links} />
+                                <MenuNavigationLinks
+                                    links={links}
+                                    on_click={on_close}
+                                />
                             </div>
                         </div>
                     </div>
@@ -176,7 +179,7 @@ function Menu({
     );
 }
 
-function MenuNavigationLinks({ links }: { links: MenuLink[] }) {
+function MenuNavigationLinks({ links, on_click }: { links: MenuLink[]; on_click: () => void }) {
     return (
         <ul className='grid grid-cols-1  pb-[50px]'>
             {links.map((link, idx) => (
@@ -185,16 +188,28 @@ function MenuNavigationLinks({ links }: { links: MenuLink[] }) {
                     className={clsx("py-[28px]", idx != 0 ? "border-t border-t-gray-400/20" : "")}
                 >
                     {"links" in link ? (
-                        <MenuCompoundNavigationLink compound_link={link} />
+                        <MenuCompoundNavigationLink
+                            compound_link={link}
+                            on_click={on_click}
+                        />
                     ) : (
-                        <MenuSimpleLink link={link} />
+                        <MenuSimpleLink
+                            link={link}
+                            on_click={on_click}
+                        />
                     )}
                 </li>
             ))}
         </ul>
     );
 }
-function MenuCompoundNavigationLink({ compound_link }: { compound_link: CompoundNavigationLink }) {
+function MenuCompoundNavigationLink({
+    compound_link,
+    on_click,
+}: {
+    compound_link: CompoundNavigationLink;
+    on_click: () => void;
+}) {
     return (
         <div>
             <h2 className='font-medium text-lg py-[12px]'>{compound_link.label}</h2>
@@ -205,6 +220,7 @@ function MenuCompoundNavigationLink({ compound_link }: { compound_link: Compound
                         className=' '
                     >
                         <Link
+                            onClick={on_click}
                             to={link.route}
                             className='block py-[12px] pl-[30px]'
                         >
@@ -217,10 +233,11 @@ function MenuCompoundNavigationLink({ compound_link }: { compound_link: Compound
     );
 }
 
-function MenuSimpleLink({ link }: { link: NavigationLink }) {
+function MenuSimpleLink({ link, on_click }: { link: NavigationLink; on_click: () => void }) {
     return (
         <Link
             to={link.route}
+            onClick={on_click}
             className='py-[12px] block'
         >
             {link.label}
@@ -245,7 +262,7 @@ interface MenuBtnProps {
 function MenuButton({ is_open, on_click }: MenuBtnProps) {
     return (
         <button
-            aria-label={is_open ? "Abrir menú de navegación" : "Cerrar menú de navegación"}
+            aria-label={!is_open ? "Abrir menú de navegación" : "Cerrar menú de navegación"}
             onClick={on_click}
         >
             <span className='sr-only'>{is_open ? "Cerrar menú" : "Abrir menú"}</span>
@@ -286,7 +303,10 @@ function MenuButton({ is_open, on_click }: MenuBtnProps) {
 
 function Personalizado() {
     return (
-        <div className='text-xss flex gap-[5px] items-center  '>
+        <div
+            className='text-xss flex gap-[5px] items-center  '
+            aria-hidden
+        >
             <span>P</span>
             <span>E</span>
             <span>R</span>

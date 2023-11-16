@@ -11,3 +11,6 @@ https://www.storyblok.com/docs/image-service
 
 Responsive Image Doc:
 https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
+
+
+### [x] Fix navigation not closing when click nav link
