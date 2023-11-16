@@ -90,7 +90,7 @@ export async function loader({ context }: LoaderArgs) {
         },
         {
             headers: {
-                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${get_home_op.ok.time}`,
+                "Server-Timing": `get_home_op;desc="(st) Get Home";dur=${get_home_op.ok.time}`,
             },
         }
     );
@@ -102,13 +102,13 @@ export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
 
 export const headers: HeadersFunction = ({
     // actionHeaders,
-    // loaderHeaders,
+    loaderHeaders,
     parentHeaders,
     // errorHeaders,
 }) => {
     return {
         "Server-Timing": [
-            // loaderHeaders.get("Server-Timing") as string,
+            loaderHeaders.get("Server-Timing") as string,
             parentHeaders.get("Server-Timing") as string,
         ].join(","),
     };

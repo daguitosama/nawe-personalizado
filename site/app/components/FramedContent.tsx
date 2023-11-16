@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { HTMLProps } from "react";
+import { type HTMLProps } from "react";
 
 interface FramedContentProps extends HTMLProps<HTMLDivElement> {}
 
