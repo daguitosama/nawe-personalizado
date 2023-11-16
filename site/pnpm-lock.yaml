@@ -42,6 +42,9 @@ devDependencies:
   '@remix-run/server-runtime':
     specifier: ^1.19.3
     version: 1.19.3
+  '@storyblok/js':
+    specifier: ^2.0.1
+    version: 2.0.1
   '@types/node':
     specifier: ^20.5.9
     version: 20.5.9
@@ -2394,6 +2397,12 @@ packages:
   /@sindresorhus/is@4.6.0:
     resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
     engines: {node: '>=10'}
+    dev: true
+
+  /@storyblok/js@2.0.1:
+    resolution: {integrity: sha512-LrQtboQOFWxlVqpwXAiJx0Vj0zSwAtLGavhyITCkZU53Ri3NVX34KFkOrexsWogZCK9FgGYCKRGX0RqrmPs03Q==}
+    dependencies:
+      storyblok-js-client: 5.10.6
     dev: true
 
   /@szmarczak/http-timer@4.0.6:
@@ -7447,6 +7456,10 @@ packages:
   /stoppable@1.1.0:
     resolution: {integrity: sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==}
     engines: {node: '>=4', npm: '>=6'}
+    dev: true
+
+  /storyblok-js-client@5.10.6:
+    resolution: {integrity: sha512-rnUWMom9ePxUIbZ0mhnGePtd6agO4jmDDd9UVbeRehMTrfUKsDcpqOfTHO6zy7aq7SMaQqMB+22JCYzYbsZDuw==}
     dev: true
 
   /stream-shift@1.0.1:

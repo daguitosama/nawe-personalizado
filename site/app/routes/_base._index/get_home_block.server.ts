@@ -1,6 +1,8 @@
 import type { Image, SEO } from "~/lib/types";
 import z from "zod";
 import { new_timer } from "~/lib/misc.server";
+import { SEO_Parser } from "~/lib/seo.server";
+import { Hero_Image_Parser } from "~/lib/parsers.server";
 /* Services Block */
 type ServicesBlock = {
     title: string;
@@ -70,73 +72,6 @@ export type Home_Block = {
 
 
 */
-
-const SEO_Payload_Parser = z
-    .array(
-        z.object({
-            _uid: z.string(),
-            title: z.string(),
-            description: z.string(),
-            social_image: z.object({
-                filename: z.string(),
-            }),
-        })
-    )
-    .transform(function to_SEO_Block(raw): SEO {
-        const result: SEO = {
-            title: "not found",
-            description: "not found",
-            og_image: "not found",
-        };
-        if (!raw.length) {
-            return result;
-        }
-        result.title = raw[0].title;
-        result.description = raw[0].description;
-        result.og_image = raw[0].social_image.filename;
-        return result;
-    });
-
-const Hero_Image_Parser = z
-    .array(
-        z.object({
-            mobile: z
-                .object({
-                    alt: z.string(),
-                    filename: z.string(),
-                })
-                .transform(function to_Image({ alt, filename }): Image {
-                    return {
-                        alt,
-                        url: filename,
-                    };
-                }),
-            desktop: z
-                .object({
-                    alt: z.string(),
-                    filename: z.string(),
-                })
-                .transform(function to_Image({ alt, filename }): Image {
-                    return {
-                        alt,
-                        url: filename,
-                    };
-                }),
-        })
-    )
-    .transform(function to_hero_image(raw): Home_Block["hero_image"] {
-        const r: Home_Block["hero_image"] = {
-            desktop: { alt: "not found", url: "not found" },
-            mobile: { alt: "not found", url: "not found" },
-        };
-
-        if (!raw.length) {
-            return r;
-        }
-        r.desktop = raw[0].desktop;
-        r.mobile = raw[0].mobile;
-        return r;
-    });
 
 const Articles_Parser = z
     .array(
@@ -235,7 +170,7 @@ export const Home_Block_Parser = z
         data: z.object({
             PageItem: z.object({
                 content: z.object({
-                    seo: SEO_Payload_Parser,
+                    seo: SEO_Parser,
                     body: z.array(
                         z.object({
                             hero_image: Hero_Image_Parser,

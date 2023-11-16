@@ -1,14 +1,16 @@
 import { new_timer } from "~/lib/misc.server";
 import type { SEO, Image } from "~/lib/types";
 import { Serigrafia_Block_Parser } from "./parser.server";
+import { type ISbRichtext } from "@storyblok/js";
 
-type Note = {
+export type Note = {
     id: string;
     summary: string;
-    details: string;
+    details: ISbRichtext;
 };
 export type Serigrafia_Block = {
     seo: SEO;
+    title: string;
     hero_image: {
         mobile: Image;
         desktop: Image;
@@ -22,11 +24,107 @@ export const sample_data: Serigrafia_Block = {
         desktop: { alt: "", url: "" },
         mobile: { alt: "", url: "" },
     },
+    title: "Foo",
     notes: [
         {
             id: "0",
             summary: "Note",
-            details: "<p> <strong> Important </strong> note nega </p>",
+            details: {
+                type: "paragraph",
+                content: [
+                    {
+                        text: "Es la técnica de impresión que permite transferir un diseño mediante el uso de tinta y una malla.",
+                        type: "text",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        type: "hard_break",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        type: "hard_break",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        text: "Conlleva un fuerte componente artesanal. Es la más económica, rápida y efectiva. Ideal para encargos de grandes cantidades. ",
+                        type: "text",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        type: "hard_break",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        type: "hard_break",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        text: "Presenta un acabado llamativo y nítido con colores intensos. ",
+                        type: "text",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        type: "hard_break",
+                        marks: [
+                            {
+                                type: "textStyle",
+                                attrs: {
+                                    color: "",
+                                },
+                            },
+                        ],
+                    },
+                ],
+            },
         },
     ],
 };
@@ -43,7 +141,7 @@ type Get_Serigrafia_Block_Operation_Result =
     | Get_Serigrafia_Block_Operation_Success
     | Get_Serigrafia_Block_Operation_Error;
 
-export async function get_home_block({
+export async function get_serigrafia_block({
     token,
 }: {
     token: string;
@@ -54,13 +152,14 @@ export async function get_home_block({
 
     var query = `#graphql
         {
-            PageItem(id:"/servicios/serigrafia"){
-                id
-                    content{
-                        seo
-                        body
-                    }
+            SerigrafiapageItem(id:"/servicios/serigrafia"){
+                content{
+                    seo
+                    hero_image
+                    title
+                    notes
                 }
+            }
         }
 `;
 

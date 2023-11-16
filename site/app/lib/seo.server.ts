@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { type SEO } from "./types";
 
 /**
@@ -28,3 +29,29 @@ export function seo_meta_tags(seo: SEO, relative_route: string) {
         { property: "twitter:card", content: "summary_large_image" },
     ];
 }
+
+export const SEO_Parser = z
+    .array(
+        z.object({
+            _uid: z.string(),
+            title: z.string(),
+            description: z.string(),
+            social_image: z.object({
+                filename: z.string(),
+            }),
+        })
+    )
+    .transform(function to_SEO_Block(raw): SEO {
+        const result: SEO = {
+            title: "not found",
+            description: "not found",
+            og_image: "not found",
+        };
+        if (!raw.length) {
+            return result;
+        }
+        result.title = raw[0].title;
+        result.description = raw[0].description;
+        result.og_image = raw[0].social_image.filename;
+        return result;
+    });

@@ -14,3 +14,4 @@ https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Res
 
 
 ### [x] Fix navigation not closing when click nav link
+### [x] Refactor Serigrafia page to came back as a stable type (preferred)

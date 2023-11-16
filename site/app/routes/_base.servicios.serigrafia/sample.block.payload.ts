@@ -1,11 +1,10 @@
 const _sample_serigrafia_block_payload = {
     data: {
-        PageItem: {
-            id: 561168,
+        SerigrafiapageItem: {
             content: {
                 seo: [
                     {
-                        _uid: "3a50547f-b1ba-4f54-af33-171123d6aa77",
+                        _uid: "9fb815d7-f34f-441d-82dd-4002cebdf05d",
                         title: "serigrafia",
                         component: "seo",
                         description: "serigrafia",
@@ -24,266 +23,143 @@ const _sample_serigrafia_block_payload = {
                             is_external_url: false,
                         },
                         _editable:
-                            '<!--#storyblok#{"name": "seo", "space": "1016508", "uid": "3a50547f-b1ba-4f54-af33-171123d6aa77", "id": "561168"}-->',
+                            '<!--#storyblok#{"name": "seo", "space": "1016508", "uid": "9fb815d7-f34f-441d-82dd-4002cebdf05d", "id": "589373"}-->',
                     },
                 ],
-                body: [
+                hero_image: [
                     {
-                        _uid: "c0897753-e37d-483e-8ced-e65c38b73ba0",
-                        Title: "Servicio de Impresión Serigráfica",
-                        component: "Title",
+                        _uid: "b4a2325b-36e2-482e-bbe9-8dfdc2c7b315",
+                        mobile: {
+                            id: 269682,
+                            alt: "Materiales para la personalización",
+                            name: "",
+                            focus: "",
+                            title: "",
+                            source: "",
+                            filename:
+                                "https://a-us.storyblok.com/f/1016508/1000x1000/aa55c5a807/nawe-personalizado-mobile.webp",
+                            copyright: "NAWE",
+                            fieldtype: "asset",
+                            meta_data: {},
+                            is_external_url: false,
+                        },
+                        desktop: {
+                            id: 269681,
+                            alt: "Materiales para la personalización",
+                            name: "",
+                            focus: "",
+                            title: "",
+                            source: "",
+                            filename:
+                                "https://a-us.storyblok.com/f/1016508/1590x650/9cc40cdb76/nawe-personalizado-desktop.webp",
+                            copyright: "NAWE",
+                            fieldtype: "asset",
+                            meta_data: {},
+                            is_external_url: false,
+                        },
+                        component: "hero_image",
                         _editable:
-                            '<!--#storyblok#{"name": "Title", "space": "1016508", "uid": "c0897753-e37d-483e-8ced-e65c38b73ba0", "id": "561168"}-->',
+                            '<!--#storyblok#{"name": "hero_image", "space": "1016508", "uid": "b4a2325b-36e2-482e-bbe9-8dfdc2c7b315", "id": "589373"}-->',
                     },
+                ],
+                title: "Servicio de Impresión Serigráfica",
+                notes: [
                     {
-                        _uid: "68f41cc3-59ce-4ef8-829b-1aacb65a92c6",
-                        notes: [
-                            {
-                                _uid: "fa913edd-3a2b-4f98-b155-348bf9b878ee",
-                                details: {
-                                    type: "doc",
+                        _uid: "3e78e091-e73f-4ad1-8143-f87bdbe815de",
+                        details: {
+                            type: "doc",
+                            content: [
+                                {
+                                    type: "paragraph",
                                     content: [
                                         {
-                                            type: "paragraph",
-                                            content: [
+                                            text: "Es la técnica de impresión que permite transferir un diseño mediante el uso de tinta y una malla.",
+                                            type: "text",
+                                            marks: [
                                                 {
-                                                    text: "Es la técnica de impresión que permite transferir un diseño mediante el uso de tinta y una malla.",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
+                                            ],
+                                        },
+                                        {
+                                            type: "hard_break",
+                                            marks: [
                                                 {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
+                                            ],
+                                        },
+                                        {
+                                            type: "hard_break",
+                                            marks: [
                                                 {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
+                                            ],
+                                        },
+                                        {
+                                            text: "Conlleva un fuerte componente artesanal. Es la más económica, rápida y efectiva. Ideal para encargos de grandes cantidades. ",
+                                            type: "text",
+                                            marks: [
                                                 {
-                                                    text: "Conlleva un fuerte componente artesanal. Es la más económica, rápida y efectiva. Ideal para encargos de grandes cantidades. ",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
+                                            ],
+                                        },
+                                        {
+                                            type: "hard_break",
+                                            marks: [
                                                 {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
+                                            ],
+                                        },
+                                        {
+                                            type: "hard_break",
+                                            marks: [
                                                 {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
+                                            ],
+                                        },
+                                        {
+                                            text: "Presenta un acabado llamativo y nítido con colores intensos.",
+                                            type: "text",
+                                            marks: [
                                                 {
-                                                    text: "Presenta un acabado llamativo y nítido con colores intensos. ",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
+                                                    type: "textStyle",
+                                                    attrs: {
+                                                        color: "",
+                                                    },
                                                 },
                                             ],
                                         },
                                     ],
                                 },
-                                summary: "¿Qué es?",
-                                component: "Serigrafia_Note",
-                                _editable:
-                                    '<!--#storyblok#{"name": "Serigrafia_Note", "space": "1016508", "uid": "fa913edd-3a2b-4f98-b155-348bf9b878ee", "id": "561168"}-->',
-                            },
-                            {
-                                _uid: "e01cf79d-b2cd-4db3-bdc6-9db9296b5acd",
-                                details: {
-                                    type: "doc",
-                                    content: [
-                                        {
-                                            type: "paragraph",
-                                            content: [
-                                                {
-                                                    text: "Se emplean bastidores con una malla tensada (Pantalla), que se oscurece mediante un líquido que reacciona a la luz, quedando libre en las zonas donde pasará la tinta.",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                                summary: "¿Cómo se hace?",
-                                component: "Serigrafia_Note",
-                                _editable:
-                                    '<!--#storyblok#{"name": "Serigrafia_Note", "space": "1016508", "uid": "e01cf79d-b2cd-4db3-bdc6-9db9296b5acd", "id": "561168"}-->',
-                            },
-                            {
-                                _uid: "33aa7c43-c97c-4e58-af6f-c06f692d2739",
-                                details: {
-                                    type: "doc",
-                                    content: [
-                                        {
-                                            type: "paragraph",
-                                        },
-                                    ],
-                                },
-                                summary: "",
-                                component: "Serigrafia_Note",
-                                _editable:
-                                    '<!--#storyblok#{"name": "Serigrafia_Note", "space": "1016508", "uid": "33aa7c43-c97c-4e58-af6f-c06f692d2739", "id": "561168"}-->',
-                            },
-                            {
-                                _uid: "be5ae82e-df6e-4940-9a23-9c38c787a3e7",
-                                details: {
-                                    type: "doc",
-                                    content: [
-                                        {
-                                            type: "paragraph",
-                                            content: [
-                                                {
-                                                    text: "Sus colores están limitados. (Disponibles de 1 - 4 colores). Cada color conlleva una pantalla diferente.",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    type: "hard_break",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    text: "Este servicio se solicita ",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    text: "a partir de 20",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "bold",
-                                                        },
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                                {
-                                                    text: " piezas en adelante. Los costos dependen del número, tamaño y colores de las imágenes en diferentes ubicaciones, que serán impresas.",
-                                                    type: "text",
-                                                    marks: [
-                                                        {
-                                                            type: "textStyle",
-                                                            attrs: {
-                                                                color: "",
-                                                            },
-                                                        },
-                                                    ],
-                                                },
-                                            ],
-                                        },
-                                    ],
-                                },
-                                summary: "Términos",
-                                component: "Serigrafia_Note",
-                                _editable:
-                                    '<!--#storyblok#{"name": "Serigrafia_Note", "space": "1016508", "uid": "be5ae82e-df6e-4940-9a23-9c38c787a3e7", "id": "561168"}-->',
-                            },
-                        ],
-                        component: "Serigrafia_Notes",
+                            ],
+                        },
+                        summary: "¿Qué es?",
+                        component: "Serigrafia_Note",
                         _editable:
-                            '<!--#storyblok#{"name": "Serigrafia_Notes", "space": "1016508", "uid": "68f41cc3-59ce-4ef8-829b-1aacb65a92c6", "id": "561168"}-->',
+                            '<!--#storyblok#{"name": "Serigrafia_Note", "space": "1016508", "uid": "3e78e091-e73f-4ad1-8143-f87bdbe815de", "id": "589373"}-->',
                     },
                 ],
             },
