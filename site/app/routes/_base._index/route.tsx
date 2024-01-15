@@ -1,4 +1,4 @@
-import type { V2_MetaFunction, LoaderArgs, HeadersFunction } from "@remix-run/cloudflare";
+import type { MetaFunction, LoaderFunctionArgs, HeadersFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -10,11 +10,11 @@ import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { get_home_block } from "./get_home_block.server";
 
 type LoaderData = {
-    meta: ReturnType<V2_MetaFunction>;
+    meta: ReturnType<MetaFunction>;
     home: Home_Block;
 };
 
-export async function loader({ context }: LoaderArgs) {
+export async function loader({ context }: LoaderFunctionArgs) {
     // temp static home block
     const _s_home: Home_Block = {
         seo: {
@@ -96,7 +96,8 @@ export async function loader({ context }: LoaderArgs) {
     );
 }
 
-export const meta: V2_MetaFunction = ({ data }: { data: LoaderData }) => {
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+    if (!data) return [];
     return data.meta;
 };
 
