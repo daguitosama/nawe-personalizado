@@ -1,28 +1,24 @@
-import { logDevReady } from "@remix-run/cloudflare";
+import { type ServerBuild, logDevReady } from "@remix-run/cloudflare";
 import { createPagesFunctionHandler } from "@remix-run/cloudflare-pages";
 import * as build from "@remix-run/dev/server-build";
-import { seo_meta_tags } from "~/lib/seo.server";
+import { init_env } from "~/lib/env.server";
 
 if (process.env.NODE_ENV === "development") {
-    logDevReady(build);
+    logDevReady(build as ServerBuild);
 }
 
-export interface Env {
-    ST_ACCESS_TOKEN: string;
-}
-declare module "@remix-run/server-runtime" {
-    interface AppLoadContext extends Env {
-        seo_meta_tags: typeof seo_meta_tags;
-    }
-}
-
+// declare module "@remix-run/server-runtime" {
+//     interface AppLoadContext {}
+// }
 export const onRequest = createPagesFunctionHandler({
-    build,
+    build: build as ServerBuild,
     getLoadContext: (context) => {
-        return {
-            seo_meta_tags,
+        init_env({
+            COOKIE_SECRET: context.env.COOKIE_SECRET,
             ST_ACCESS_TOKEN: context.env.ST_ACCESS_TOKEN,
-        };
+        });
+
+        return {};
     },
     mode: process.env.NODE_ENV,
 });

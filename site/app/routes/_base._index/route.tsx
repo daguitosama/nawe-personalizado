@@ -1,4 +1,4 @@
-import type { MetaFunction, LoaderFunctionArgs, HeadersFunction } from "@remix-run/cloudflare";
+import type { MetaFunction, HeadersFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -8,13 +8,14 @@ import { Heading, Heading_l2 } from "~/components/Heading";
 import type { HTMLProps } from "react";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import { get_home_block } from "./get_home_block.server";
+import { seo_meta_tags } from "~/lib/seo.server";
 
 type LoaderData = {
     meta: ReturnType<MetaFunction>;
     home: Home_Block;
 };
 
-export async function loader({ context }: LoaderFunctionArgs) {
+export async function loader() {
     // temp static home block
     const _s_home: Home_Block = {
         seo: {
@@ -77,7 +78,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
             },
         },
     };
-    const get_home_op = await get_home_block({ token: context.ST_ACCESS_TOKEN });
+    const get_home_op = await get_home_block();
 
     if (get_home_op.err) {
         throw get_home_op.err;
@@ -85,7 +86,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
     return json<LoaderData>(
         {
-            meta: context.seo_meta_tags(get_home_op.ok.home.seo, "/"),
+            meta: seo_meta_tags(get_home_op.ok.home.seo, "/"),
             home: get_home_op.ok.home,
         },
         {

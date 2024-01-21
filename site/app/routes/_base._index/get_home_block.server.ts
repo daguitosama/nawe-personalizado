@@ -3,6 +3,7 @@ import z from "zod";
 import { new_timer } from "~/lib/misc.server";
 import { SEO_Parser } from "~/lib/seo.server";
 import { Hero_Image_Parser } from "~/lib/parsers.server";
+import env from "~/lib/env.server";
 /* Services Block */
 type ServicesBlock = {
     title: string;
@@ -203,11 +204,7 @@ type Get_Home_Block_Operation_Result =
     | Get_Home_Block_Operation_Success
     | Get_Home_Block_Operation_Error;
 
-export async function get_home_block({
-    token,
-}: {
-    token: string;
-}): Promise<Get_Home_Block_Operation_Result> {
+export async function get_home_block(): Promise<Get_Home_Block_Operation_Result> {
     // global-settings
     var _g_api_url = `https://gapi-us.storyblok.com/v1/api`;
     const timer = new_timer();
@@ -228,7 +225,7 @@ export async function get_home_block({
             body: JSON.stringify({ query }),
             headers: {
                 "Content-Type": "application/json",
-                Token: token,
+                Token: env().ST_ACCESS_TOKEN,
             },
         });
 

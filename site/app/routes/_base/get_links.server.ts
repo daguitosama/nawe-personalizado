@@ -1,6 +1,7 @@
 import { new_timer } from "~/lib/misc.server";
 import type { MenuLink, NavigationLink } from "./navigation";
 import z from "zod";
+import env from "~/lib/env.server";
 
 const _query_response_sample = {
     data: {
@@ -138,11 +139,7 @@ type Get_Navigation_Links_Operation_Result =
     | Get_Navigation_Links_Operation_Success
     | Get_Navigation_Links_Operation_Error;
 
-export default async function get_links({
-    token,
-}: {
-    token: string;
-}): Promise<Get_Navigation_Links_Operation_Result> {
+export default async function get_links(): Promise<Get_Navigation_Links_Operation_Result> {
     // global-settings
     var _g_api_url = `https://gapi-us.storyblok.com/v1/api`;
     const timer = new_timer();
@@ -166,7 +163,7 @@ export default async function get_links({
             body: JSON.stringify({ query }),
             headers: {
                 "Content-Type": "application/json",
-                Token: token,
+                Token: env().ST_ACCESS_TOKEN,
             },
         });
 
