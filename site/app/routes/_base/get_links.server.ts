@@ -1,7 +1,6 @@
 import { new_timer } from "~/lib/misc.server";
 import type { MenuLink, NavigationLink } from "./navigation";
 import z from "zod";
-import env from "~/lib/env.server";
 
 const _query_response_sample = {
     data: {
@@ -163,7 +162,7 @@ export default async function get_links(): Promise<Get_Navigation_Links_Operatio
             body: JSON.stringify({ query }),
             headers: {
                 "Content-Type": "application/json",
-                Token: env().ST_ACCESS_TOKEN,
+                Token: globalThis.ST_ACCESS_TOKEN,
             },
         });
 
