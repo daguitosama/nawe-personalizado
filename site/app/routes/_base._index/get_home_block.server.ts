@@ -3,7 +3,6 @@ import z from "zod";
 import { new_timer } from "~/lib/misc.server";
 import { SEO_Parser } from "~/lib/seo.server";
 import { Hero_Image_Parser } from "~/lib/parsers.server";
-import env from "~/lib/env.server";
 /* Services Block */
 type ServicesBlock = {
     title: string;
@@ -225,7 +224,7 @@ export async function get_home_block(): Promise<Get_Home_Block_Operation_Result>
             body: JSON.stringify({ query }),
             headers: {
                 "Content-Type": "application/json",
-                Token: env().ST_ACCESS_TOKEN,
+                Token: globalThis.ST_ACCESS_TOKEN,
             },
         });
 
