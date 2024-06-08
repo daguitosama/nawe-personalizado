@@ -324,7 +324,7 @@ function Personalizado() {
     );
 }
 
-function Logo() {
+export function Logo() {
     return (
         <svg
             width='113'

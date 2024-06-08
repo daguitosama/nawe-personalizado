@@ -11,30 +11,37 @@ const env_schema = z.object({
     ST_ACCESS_TOKEN: z.string(),
     DB_URL: z.string(),
 });
-export type Env = z.infer<typeof env_schema>;
 
-declare module "@remix-run/server-runtime" {
-    interface AppLoadContext extends Env {}
-}
 declare global {
     var DB_URL: string;
+    var ST_ACCESS_TOKEN: string;
+    var COOKIE_SECRET: string[];
 }
-type Context = EventContext<Env, string, unknown>;
-//
+
 export const onRequest = createPagesFunctionHandler({
     build: build as ServerBuild,
-    getLoadContext: (context: Context) => {
+    getLoadContext: (context) => {
+        // make sure we have all the env vars we need
+        env_schema.parse({
+            COOKIE_SECRET: context.env.COOKIE_SECRET,
+            DB_URL: context.env.DB_URL,
+            ST_ACCESS_TOKEN: context.env.ST_ACCESS_TOKEN,
+        });
         /* 
-        This global `DB_URL` var would be used by the `db` module's connection instantiation.
-        This way, there is no need to drill the env var all the way down. 
+        This global `Keys` vars would be used by: 
+          - db
+          - storyblok content
+          - auth`
+        modules for configuration of the env vars!
         */
         globalThis.DB_URL = context.env.DB_URL;
+        globalThis.ST_ACCESS_TOKEN = context.env.ST_ACCESS_TOKEN;
+        globalThis.COOKIE_SECRET = context.env.COOKIE_SECRET;
+        /**
+         This way, there is no need to drill env vars all the way down.
+         */
 
-        return {
-            COOKIE_SECRET: context.env.COOKIE_SECRET,
-            ST_ACCESS_TOKEN: context.env.ST_ACCESS_TOKEN,
-            DB_URL: context.env.DB_URL,
-        };
+        return {};
     },
     mode: process.env.NODE_ENV,
 });
