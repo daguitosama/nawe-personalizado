@@ -1,8 +1,25 @@
 import { KyInstance } from "ky";
-import { new_timer } from "~/lib/misc.server";
-import { MenuLink, NavigationLink } from "~/routes/_base/navigation";
 import z from "zod";
 import { GRAPHQL_API_URL } from "../constants";
+import { Timer } from "./Timer";
+
+export type CompoundNavigationLink = {
+    id: string;
+    label: string;
+    links: {
+        id: string;
+        label: string;
+        route: string;
+    }[];
+};
+
+export type NavigationLink = {
+    id: string;
+    label: string;
+    route: string;
+};
+
+export type MenuLink = NavigationLink | CompoundNavigationLink;
 
 export class GlobalSettings {
     private client: KyInstance;
@@ -11,7 +28,7 @@ export class GlobalSettings {
     }
 
     async get(): Promise<Global_Settings_Result> {
-        const timer = new_timer();
+        const timer = new Timer();
 
         const query = `#graphql
             {

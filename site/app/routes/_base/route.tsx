@@ -1,67 +1,24 @@
-import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare";
+import type { HeadersFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { type MenuLink, Navigation } from "./navigation";
-import { useState } from "react";
 import clsx from "clsx";
+import { useState } from "react";
 import { Footer } from "./footer";
+import { Navigation } from "./navigation";
 
-type LoaderData = {
-    navigation_links: MenuLink[];
-};
-
-export const loader: LoaderFunction = async ({ context }) => {
-    const _sample_compound_navigation_links: MenuLink[] = [
+export async function loader({ context }: LoaderFunctionArgs) {
+    const globalSettingsResult = await context.content.globalSettings.get();
+    return json(
         {
-            id: "compound-link-0",
-            label: "Servicios",
-            links: [
-                // suministros
-                {
-                    id: "id-0",
-                    label: "Serigrafía ",
-                    route: "/servicios/serigrafia",
-                },
-                // Confección
-                {
-                    id: "id-1",
-                    label: "Etiquetas",
-                    route: "/servicios/etiquetas",
-                },
-                // Impresiones en Serigrafía y Sublimación
-                {
-                    id: "id-2",
-                    label: "Empaquetado",
-                    route: "/servicios/empaquetado",
-                },
-            ],
+            navigation_links: globalSettingsResult.links,
         },
-        {
-            id: "2",
-            label: "Artículos Importados y Confeccionados ",
-            route: "/articulos-importados-y-confeccionados",
-        },
-        {
-            id: "3",
-            label: "Contactos",
-            route: "/contacto",
-        },
-    ];
-    // const globalSettingsResult = await context.content.globalSettings.get();
-    console.log({ context });
-
-    return json<LoaderData>(
-        {
-            navigation_links: _sample_compound_navigation_links, //globalSettingsResult.links,
-        },
-
         {
             headers: {
                 "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${0 /*globalSettingsResult.delta */}`,
             },
         }
     );
-};
+}
 
 export const headers: HeadersFunction = ({
     // actionHeaders,

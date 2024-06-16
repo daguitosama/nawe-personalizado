@@ -98,7 +98,7 @@ const Articles_Parser = z
         })
     )
     .transform(function to_Articles_Block(raw): ArticlesBlock {
-        var r: ArticlesBlock = {
+        const r: ArticlesBlock = {
             title: "",
             card: {
                 route: "",
