@@ -6,7 +6,7 @@ import clsx from "clsx";
 import FocusTrap from "focus-trap-react";
 import { Fragment, useState } from "react";
 import { CompoundNavigationLink, MenuLink, NavigationLink } from "services/content/GlobalSettings";
-import { useBodyOverflow } from "~/hooks";
+import { useBodyOverflow } from "~/lib.client/hooks";
 
 export function Navigation({ links, signal_nav_toggle }: { links: MenuLink[]; signal_nav_toggle: () => void }) {
     const [is_open, set_is_open] = useState<boolean>(false);

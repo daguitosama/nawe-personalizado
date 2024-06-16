@@ -1,10 +1,12 @@
 import ky, { type KyInstance } from "ky";
 import { GlobalSettings } from "./GlobalSettings";
-// import { HomeBlock } from "./Home";
+import { Home } from "./Home";
+import { SeoService } from "./Seo";
 export class Content {
     private client: KyInstance;
     public globalSettings: GlobalSettings;
-    // public homeBlock: HomeBlock;
+    public seoService: SeoService;
+    public home: Home;
     constructor(stAccessToken: string) {
         this.client = ky.create({
             headers: {
@@ -13,6 +15,7 @@ export class Content {
             },
         });
         this.globalSettings = new GlobalSettings(this.client);
-        // this.homeBlock = new HomeBlock(this.client);
+        this.seoService = new SeoService();
+        this.home = new Home(this.client);
     }
 }

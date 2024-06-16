@@ -1,19 +1,18 @@
 import { KyInstance } from "ky";
-import { new_timer } from "~/lib/misc.server";
-import { GRAPHQL_API_URL } from "../constants";
-import { SEO_Parser } from "~/lib/seo.server";
-import { Hero_Image_Parser } from "~/lib/parsers.server";
+import { Image } from "services/types";
 import z from "zod";
-import { Image, SEO } from "~/lib/types";
+import { GRAPHQL_API_URL } from "../constants";
+import { SEO, seoParser } from "./Seo";
+import { Timer } from "./Timer";
 
-export class HomeBlock {
+export class Home {
     private client: KyInstance;
     constructor(client: KyInstance) {
         this.client = client;
     }
 
-    async get(): Promise<Get_Home_Block_Result> {
-        const timer = new_timer();
+    public async get(): Promise<Get_Home_Block_Result> {
+        const timer = new Timer();
         const query = `#graphql
         {
             PageItem(id: "home") {
@@ -74,6 +73,46 @@ type Get_Home_Block_Result = {
     delta: number;
 };
 
+export const Hero_Image_Parser = z
+    .array(
+        z.object({
+            mobile: z
+                .object({
+                    alt: z.string(),
+                    filename: z.string(),
+                })
+                .transform(function to_Image({ alt, filename }): Image {
+                    return {
+                        alt,
+                        url: filename,
+                    };
+                }),
+            desktop: z
+                .object({
+                    alt: z.string(),
+                    filename: z.string(),
+                })
+                .transform(function to_Image({ alt, filename }): Image {
+                    return {
+                        alt,
+                        url: filename,
+                    };
+                }),
+        })
+    )
+    .transform(function to_hero_image(raw): Home_Block["hero_image"] {
+        const r: Home_Block["hero_image"] = {
+            desktop: { alt: "not found", url: "not found" },
+            mobile: { alt: "not found", url: "not found" },
+        };
+
+        if (!raw.length) {
+            return r;
+        }
+        r.desktop = raw[0].desktop;
+        r.mobile = raw[0].mobile;
+        return r;
+    });
 const Articles_Parser = z
     .array(
         z.object({
@@ -171,7 +210,7 @@ export const Home_Block_Parser = z
         data: z.object({
             PageItem: z.object({
                 content: z.object({
-                    seo: SEO_Parser,
+                    seo: seoParser,
                     body: z.array(
                         z.object({
                             hero_image: Hero_Image_Parser,

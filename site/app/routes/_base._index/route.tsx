@@ -1,13 +1,12 @@
-import type { MetaFunction, HeadersFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
+import type { Home_Block, ServiceCard } from "./get_home_block.server";
 // import type { Image } from "~/lib/types";
+import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
+import type { HTMLProps } from "react";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading, Heading_l2 } from "~/components/Heading";
-import type { HTMLProps } from "react";
-import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
-import { seo_meta_tags } from "~/lib/seo.server";
 
 type LoaderData = {
     meta: ReturnType<MetaFunction>;
@@ -15,82 +14,16 @@ type LoaderData = {
 };
 
 export async function loader({ context }: LoaderFunctionArgs) {
-    // temp static home block
-    const _s_home: Home_Block = {
-        seo: {
-            title: "Personaliza tu talla, tu lo pides, NAWE Personalizado lo entrega!",
-            description: "",
-            og_image: "",
-        },
-        hero_image: {
-            mobile: {
-                alt: "foo",
-                url: "/img/00.webp",
-            },
-            desktop: {
-                alt: "foo",
-                url: "/img/00_desktop.webp",
-            },
-        },
-        services_block: {
-            title: "Servicios de Producción para el Emprendimiento y la Creación Independiente",
-            service_cards: [
-                {
-                    id: "0",
-                    image: {
-                        alt: "foo",
-                        url: "/img/04.webp",
-                    },
-                    label: "Etiquetas",
-                    route: "/servicios/etiquetas",
-                },
-                {
-                    id: "1",
-                    image: {
-                        alt: "foo",
-                        url: "/img/12.webp",
-                    },
-                    label: "Empaquetado",
-                    route: "/servicios/empaquetado",
-                },
-
-                {
-                    id: "2",
-                    image: {
-                        alt: "foo",
-                        url: "/img/07.webp",
-                    },
-                    label: "Serigrafía  ",
-                    route: "/servicios/serigraia",
-                },
-            ],
-        },
-        articles_block: {
-            title: "Artículos",
-            card: {
-                route: "/articles",
-                image: {
-                    alt: "articulos",
-                    url: "/img/12.webp",
-                },
-                title: "Importados y Confeccionados",
-            },
-        },
-    };
-    // const result = await context.content.homeBlock.get();
+    const result = await context.content.home.get();
 
     return json<LoaderData>(
         {
-            meta: seo_meta_tags(
-                // result.homeBlock.seo,
-                _s_home.seo,
-                "/"
-            ),
-            home: _s_home /* result.homeBlock */,
+            meta: context.content.seoService.getMetaTags(result.homeBlock.seo, "/"),
+            home: result.homeBlock,
         },
         {
             headers: {
-                "Server-Timing": `get_home_op;desc="(st) Get Home";dur=${0 /*result.delta */}`,
+                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta}`,
             },
         }
     );

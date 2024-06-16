@@ -1,7 +1,6 @@
-import type { Image, SEO } from "~/lib/types";
+import { SEO } from "services/content/Seo";
+import type { Image } from "services/types";
 import z from "zod";
-import { new_timer } from "~/lib/misc.server";
-import { SEO_Parser } from "~/lib/seo.server";
 import { Hero_Image_Parser } from "~/lib/parsers.server";
 /* Services Block */
 type ServicesBlock = {
@@ -199,9 +198,7 @@ type Get_Home_Block_Operation_Error = {
     ok: null;
     err: Error;
 };
-type Get_Home_Block_Operation_Result =
-    | Get_Home_Block_Operation_Success
-    | Get_Home_Block_Operation_Error;
+type Get_Home_Block_Operation_Result = Get_Home_Block_Operation_Success | Get_Home_Block_Operation_Error;
 
 export async function get_home_block(): Promise<Get_Home_Block_Operation_Result> {
     // global-settings
