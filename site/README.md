@@ -1,7 +1,21 @@
 ## Tasks
 
 -   [x] Refactor Content to a Injectable Service Pattern
--   [ ] Home
--   [] Global Settings
-    -   [] Navigation
-    -   [] Business Contact Info
+-   [ ] Pages
+    -   [ ] Home
+        -   [ ] Business Data
+    -   [ ] Contact
+    -   [ ] Services
+        -   [ ] Serigrafía
+        -   [ ] Etiquetas
+        -   [ ] Empaquetado
+        -   [ ] All Services
+    -   [ ] Articles
+        -   [ ] All articles
+        -   [ ] Tshirt algodon premium
+        -   [ ] Tshirt dry Fit
+        -   [ ] Gorra Maya
+        -   [ ] Jarra
+        -   [ ] Bolsa Lienzo
+        -   [ ] Bolsa drill
+        -   [ ] Delantal
