@@ -1,45 +1,53 @@
-# Nawe Personalizado
+# Welcome to Remix + Cloudflare!
 
-## Functional Requirements
+- 📖 [Remix docs](https://remix.run/docs)
+- 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
 
--   Contact Info
-    -   Create
-    -   Update
-    -   Show
--   Products
-    -   Create
-    -   Update
-    -   Delete
-    -   Show product
-    -   List products
-    -   Product Categories
-        -   Create
-        -   Update
-        -   Delete
-        -   List
-        -   Show
--   Services
-    -   Create
-    -   Update
-    -   Delete
-    -   Show
-    -   List Services
--   Announcement
-    -   Create
-    -   Update
-    -   Delete
-    -   Show
-    -   List announcements
+## Development
 
-## TODOS
+Run the dev server:
 
-### [] Create ST_Image component
+```sh
+npm run dev
+```
 
-A component that render responsive images using Storyblock image service features. ST Image service:
-https://www.storyblok.com/docs/image-service
+To run Wrangler:
 
-Responsive Image Doc: https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images
+```sh
+npm run build
+npm run start
+```
 
-### [x] Fix navigation not closing when click nav link
+## Typegen
 
-### [x] Refactor Serigrafia page to came back as a stable type (preferred)
+Generate types for your Cloudflare bindings in `wrangler.toml`:
+
+```sh
+npm run typegen
+```
+
+You will need to rerun typegen whenever you make changes to `wrangler.toml`.
+
+## Deployment
+
+> [!WARNING]  
+> Cloudflare does _not_ use `wrangler.toml` to configure deployment bindings.
+> You **MUST** [configure deployment bindings manually in the Cloudflare dashboard][bindings].
+
+First, build your app for production:
+
+```sh
+npm run build
+```
+
+Then, deploy your app to Cloudflare Pages:
+
+```sh
+npm run deploy
+```
+
+[bindings]: https://developers.cloudflare.com/pages/functions/bindings/
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.

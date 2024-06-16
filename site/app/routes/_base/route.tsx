@@ -1,17 +1,16 @@
-import type { HeadersFunction, LoaderArgs } from "@remix-run/server-runtime";
+import type { HeadersFunction, LoaderFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { type MenuLink, Navigation } from "./navigation";
 import { useState } from "react";
 import clsx from "clsx";
-import get_links from "./get_links.server";
 import { Footer } from "./footer";
 
 type LoaderData = {
     navigation_links: MenuLink[];
 };
 
-export async function loader({ context }: LoaderArgs) {
+export const loader: LoaderFunction = async ({ context }) => {
     const _sample_compound_navigation_links: MenuLink[] = [
         {
             id: "compound-link-0",
@@ -48,23 +47,21 @@ export async function loader({ context }: LoaderArgs) {
             route: "/contacto",
         },
     ];
-    const get_links_op = await get_links({ token: context.ST_ACCESS_TOKEN });
-    if (get_links_op.err) {
-        throw get_links_op.err;
-    }
+    // const globalSettingsResult = await context.content.globalSettings.get();
+    console.log({ context });
 
     return json<LoaderData>(
         {
-            navigation_links: get_links_op.ok.links,
+            navigation_links: _sample_compound_navigation_links, //globalSettingsResult.links,
         },
 
         {
             headers: {
-                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${get_links_op.ok.time}`,
+                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${0 /*globalSettingsResult.delta */}`,
             },
         }
     );
-}
+};
 
 export const headers: HeadersFunction = ({
     // actionHeaders,
@@ -88,12 +85,7 @@ export default function BaseLayout() {
                     set_is_open(!is_nav_open);
                 }}
             />
-            <div
-                className={clsx(
-                    "transition-all duration-500 ",
-                    is_nav_open ? "motion-safe:scale-90 " : ""
-                )}
-            >
+            <div className={clsx("transition-all duration-500 ", is_nav_open ? "motion-safe:scale-90 " : "")}>
                 <main className='pt-[70px]'>
                     <Outlet />
                 </main>

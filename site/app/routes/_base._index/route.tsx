@@ -1,4 +1,4 @@
-import type { MetaFunction, HeadersFunction } from "@remix-run/cloudflare";
+import type { MetaFunction, HeadersFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
@@ -7,7 +7,6 @@ import { FramedContent } from "~/components/FramedContent";
 import { Heading, Heading_l2 } from "~/components/Heading";
 import type { HTMLProps } from "react";
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
-import { get_home_block } from "./get_home_block.server";
 import { seo_meta_tags } from "~/lib/seo.server";
 
 type LoaderData = {
@@ -15,7 +14,7 @@ type LoaderData = {
     home: Home_Block;
 };
 
-export async function loader() {
+export async function loader({ context }: LoaderFunctionArgs) {
     // temp static home block
     const _s_home: Home_Block = {
         seo: {
@@ -78,20 +77,20 @@ export async function loader() {
             },
         },
     };
-    const get_home_op = await get_home_block();
-
-    if (get_home_op.err) {
-        throw get_home_op.err;
-    }
+    // const result = await context.content.homeBlock.get();
 
     return json<LoaderData>(
         {
-            meta: seo_meta_tags(get_home_op.ok.home.seo, "/"),
-            home: get_home_op.ok.home,
+            meta: seo_meta_tags(
+                // result.homeBlock.seo,
+                _s_home.seo,
+                "/"
+            ),
+            home: _s_home /* result.homeBlock */,
         },
         {
             headers: {
-                "Server-Timing": `get_home_op;desc="(st) Get Home";dur=${get_home_op.ok.time}`,
+                "Server-Timing": `get_home_op;desc="(st) Get Home";dur=${0 /*result.delta */}`,
             },
         }
     );
@@ -109,10 +108,7 @@ export const headers: HeadersFunction = ({
     // errorHeaders,
 }) => {
     return {
-        "Server-Timing": [
-            loaderHeaders.get("Server-Timing") as string,
-            parentHeaders.get("Server-Timing") as string,
-        ].join(","),
+        "Server-Timing": [loaderHeaders.get("Server-Timing") as string, parentHeaders.get("Server-Timing") as string].join(","),
     };
 };
 // 🏡
