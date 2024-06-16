@@ -1,8 +1,38 @@
-import { SEO } from "services/content/Seo";
-import type { Image } from "services/types";
+import { KyInstance } from "ky";
+import { Image } from "services/types";
 import z from "zod";
-import { Hero_Image_Parser } from "~/lib/parsers.server";
-/* Services Block */
+import { GRAPHQL_API_URL } from "../constants";
+import { SEO, seoParser } from "./Seo";
+import { Timer } from "./Timer";
+
+export class Home {
+    private client: KyInstance;
+    constructor(client: KyInstance) {
+        this.client = client;
+    }
+
+    public async get(): Promise<Get_Home_Block_Result> {
+        const timer = new Timer();
+        const query = `#graphql
+        {
+            PageItem(id: "home") {
+                content {
+                seo
+                body
+                }
+            }
+        }
+    `;
+
+        const res = await this.client.post(GRAPHQL_API_URL, {
+            body: JSON.stringify({ query }),
+        });
+        const data = await res.json();
+        const homeBlock = Home_Block_Parser.parse(data);
+        return { homeBlock, delta: timer.delta() };
+    }
+}
+
 type ServicesBlock = {
     title: string;
     service_cards: ServiceCard[];
@@ -38,40 +68,51 @@ export type Home_Block = {
     // packs: Home_Packs_Section_Block;
 };
 
-/* Paquetes y Ofertas for later */
-// type Home_Pack_Block = {
-//     id: string;
-//     image: Image;
-//     label: string;
-//     route: string;
-// };
+type Get_Home_Block_Result = {
+    homeBlock: Home_Block;
+    delta: number;
+};
 
-// type Home_Packs_Section_Block = {
-//     title: string;
-//     packs: Home_Pack_Block[];
-// };
+export const Hero_Image_Parser = z
+    .array(
+        z.object({
+            mobile: z
+                .object({
+                    alt: z.string(),
+                    filename: z.string(),
+                })
+                .transform(function to_Image({ alt, filename }): Image {
+                    return {
+                        alt,
+                        url: filename,
+                    };
+                }),
+            desktop: z
+                .object({
+                    alt: z.string(),
+                    filename: z.string(),
+                })
+                .transform(function to_Image({ alt, filename }): Image {
+                    return {
+                        alt,
+                        url: filename,
+                    };
+                }),
+        })
+    )
+    .transform(function to_hero_image(raw): Home_Block["hero_image"] {
+        const r: Home_Block["hero_image"] = {
+            desktop: { alt: "not found", url: "not found" },
+            mobile: { alt: "not found", url: "not found" },
+        };
 
-// type Home_Offers_Section_Block = {
-//     title: string;
-//     links: { label: string; route: string }[];
-// };
-/* End of Paquetes y Ofertas */
-
-// temp queries
-
-/* Home
-{
-  PageItem(id: "home") {
-    content {
-      seo
-      body
-    }
-  }
-}
-
-
-*/
-
+        if (!raw.length) {
+            return r;
+        }
+        r.desktop = raw[0].desktop;
+        r.mobile = raw[0].mobile;
+        return r;
+    });
 const Articles_Parser = z
     .array(
         z.object({
@@ -96,7 +137,7 @@ const Articles_Parser = z
         })
     )
     .transform(function to_Articles_Block(raw): ArticlesBlock {
-        var r: ArticlesBlock = {
+        const r: ArticlesBlock = {
             title: "",
             card: {
                 route: "",
@@ -169,7 +210,7 @@ export const Home_Block_Parser = z
         data: z.object({
             PageItem: z.object({
                 content: z.object({
-                    seo: SEO_Parser,
+                    seo: seoParser,
                     body: z.array(
                         z.object({
                             hero_image: Hero_Image_Parser,
@@ -189,50 +230,3 @@ export const Home_Block_Parser = z
             services_block: raw.data.PageItem.content.body[0].services_block,
         };
     });
-
-type Get_Home_Block_Operation_Success = {
-    ok: { home: Home_Block; time: number };
-    err: null;
-};
-type Get_Home_Block_Operation_Error = {
-    ok: null;
-    err: Error;
-};
-type Get_Home_Block_Operation_Result = Get_Home_Block_Operation_Success | Get_Home_Block_Operation_Error;
-
-export async function get_home_block(): Promise<Get_Home_Block_Operation_Result> {
-    // global-settings
-    var _g_api_url = `https://gapi-us.storyblok.com/v1/api`;
-    const timer = new_timer();
-    const query = `#graphql
-        {
-            PageItem(id: "home") {
-                content {
-                seo
-                body
-                }
-            }
-        }
-    `;
-
-    try {
-        const res = await fetch(_g_api_url, {
-            method: "POST",
-            body: JSON.stringify({ query }),
-            headers: {
-                "Content-Type": "application/json",
-                Token: globalThis.ST_ACCESS_TOKEN,
-            },
-        });
-
-        if (!res.ok) {
-            throw new Error(`API Error: Content API responded with ${res.status}`);
-        }
-        const data = await res.json();
-        const home = Home_Block_Parser.parse(data);
-        return { ok: { home, time: timer.delta() }, err: null };
-    } catch (error) {
-        console.error(error);
-        return { ok: null, err: error instanceof Error ? error : new Error("Unknown Error") };
-    }
-}

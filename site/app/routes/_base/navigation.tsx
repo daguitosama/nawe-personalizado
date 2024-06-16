@@ -1,35 +1,14 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { Transition } from "@headlessui/react";
 import { Link } from "@remix-run/react";
-import { Fragment, useState } from "react";
-import { useBodyOverflow } from "~/hooks";
 import clsx from "clsx";
 import FocusTrap from "focus-trap-react";
+import { Fragment, useState } from "react";
+import { CompoundNavigationLink, MenuLink, NavigationLink } from "services/content/GlobalSettings";
+import { useBodyOverflow } from "~/lib.client/hooks";
 
-export type CompoundNavigationLink = {
-    id: string;
-    label: string;
-    links: {
-        id: string;
-        label: string;
-        route: string;
-    }[];
-};
-
-export type NavigationLink = {
-    id: string;
-    label: string;
-    route: string;
-};
-
-export type MenuLink = NavigationLink | CompoundNavigationLink;
-
-export function Navigation({
-    links,
-    signal_nav_toggle,
-}: {
-    links: MenuLink[];
-    signal_nav_toggle: () => void;
-}) {
+export function Navigation({ links, signal_nav_toggle }: { links: MenuLink[]; signal_nav_toggle: () => void }) {
     const [is_open, set_is_open] = useState<boolean>(false);
     const { hideOverflow, showOverflow } = useBodyOverflow();
     function open_menu() {
@@ -67,8 +46,7 @@ export function Navigation({
                     if (!is_open) {
                         return;
                     }
-                    const navigation_menu_items_container =
-                        document.querySelector("#navigation-menu-items");
+                    const navigation_menu_items_container = document.querySelector("#navigation-menu-items");
                     if (!navigation_menu_items_container) {
                         return;
                     }
@@ -120,15 +98,7 @@ export function Navigation({
     );
 }
 
-function Menu({
-    open,
-    on_close,
-    links,
-}: {
-    open: boolean;
-    on_close: () => void;
-    links: MenuLink[];
-}) {
+function Menu({ open, on_close, links }: { open: boolean; on_close: () => void; links: MenuLink[] }) {
     return (
         <Transition
             as={Fragment}

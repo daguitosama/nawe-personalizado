@@ -1,66 +1,20 @@
-import type { HeadersFunction, LoaderArgs } from "@remix-run/server-runtime";
+import type { HeadersFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import { type MenuLink, Navigation } from "./navigation";
-import { useState } from "react";
 import clsx from "clsx";
-import get_links from "./get_links.server";
+import { useState } from "react";
 import { Footer } from "./footer";
+import { Navigation } from "./navigation";
 
-type LoaderData = {
-    navigation_links: MenuLink[];
-};
-
-export async function loader({ context }: LoaderArgs) {
-    const _sample_compound_navigation_links: MenuLink[] = [
+export async function loader({ context }: LoaderFunctionArgs) {
+    const globalSettingsResult = await context.content.globalSettings.get();
+    return json(
         {
-            id: "compound-link-0",
-            label: "Servicios",
-            links: [
-                // suministros
-                {
-                    id: "id-0",
-                    label: "Serigrafía ",
-                    route: "/servicios/serigrafia",
-                },
-                // Confección
-                {
-                    id: "id-1",
-                    label: "Etiquetas",
-                    route: "/servicios/etiquetas",
-                },
-                // Impresiones en Serigrafía y Sublimación
-                {
-                    id: "id-2",
-                    label: "Empaquetado",
-                    route: "/servicios/empaquetado",
-                },
-            ],
+            navigation_links: globalSettingsResult.links,
         },
-        {
-            id: "2",
-            label: "Artículos Importados y Confeccionados ",
-            route: "/articulos-importados-y-confeccionados",
-        },
-        {
-            id: "3",
-            label: "Contactos",
-            route: "/contacto",
-        },
-    ];
-    const get_links_op = await get_links({ token: context.ST_ACCESS_TOKEN });
-    if (get_links_op.err) {
-        throw get_links_op.err;
-    }
-
-    return json<LoaderData>(
-        {
-            navigation_links: get_links_op.ok.links,
-        },
-
         {
             headers: {
-                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${get_links_op.ok.time}`,
+                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${0 /*globalSettingsResult.delta */}`,
             },
         }
     );
@@ -88,12 +42,7 @@ export default function BaseLayout() {
                     set_is_open(!is_nav_open);
                 }}
             />
-            <div
-                className={clsx(
-                    "transition-all duration-500 ",
-                    is_nav_open ? "motion-safe:scale-90 " : ""
-                )}
-            >
+            <div className={clsx("transition-all duration-500 ", is_nav_open ? "motion-safe:scale-90 " : "")}>
                 <main className='pt-[70px]'>
                     <Outlet />
                 </main>

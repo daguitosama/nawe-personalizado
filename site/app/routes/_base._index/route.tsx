@@ -1,97 +1,29 @@
-import type { MetaFunction, HeadersFunction } from "@remix-run/cloudflare";
+import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import type { Home_Block, ServiceCard } from "./get_home_block.server";
 import { Link, useLoaderData } from "@remix-run/react";
+import type { Home_Block, ServiceCard } from "./get_home_block.server";
 // import type { Image } from "~/lib/types";
+import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
+import type { HTMLProps } from "react";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading, Heading_l2 } from "~/components/Heading";
-import type { HTMLProps } from "react";
-import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
-import { get_home_block } from "./get_home_block.server";
-import { seo_meta_tags } from "~/lib/seo.server";
 
 type LoaderData = {
     meta: ReturnType<MetaFunction>;
     home: Home_Block;
 };
 
-export async function loader() {
-    // temp static home block
-    const _s_home: Home_Block = {
-        seo: {
-            title: "Personaliza tu talla, tu lo pides, NAWE Personalizado lo entrega!",
-            description: "",
-            og_image: "",
-        },
-        hero_image: {
-            mobile: {
-                alt: "foo",
-                url: "/img/00.webp",
-            },
-            desktop: {
-                alt: "foo",
-                url: "/img/00_desktop.webp",
-            },
-        },
-        services_block: {
-            title: "Servicios de Producción para el Emprendimiento y la Creación Independiente",
-            service_cards: [
-                {
-                    id: "0",
-                    image: {
-                        alt: "foo",
-                        url: "/img/04.webp",
-                    },
-                    label: "Etiquetas",
-                    route: "/servicios/etiquetas",
-                },
-                {
-                    id: "1",
-                    image: {
-                        alt: "foo",
-                        url: "/img/12.webp",
-                    },
-                    label: "Empaquetado",
-                    route: "/servicios/empaquetado",
-                },
-
-                {
-                    id: "2",
-                    image: {
-                        alt: "foo",
-                        url: "/img/07.webp",
-                    },
-                    label: "Serigrafía  ",
-                    route: "/servicios/serigraia",
-                },
-            ],
-        },
-        articles_block: {
-            title: "Artículos",
-            card: {
-                route: "/articles",
-                image: {
-                    alt: "articulos",
-                    url: "/img/12.webp",
-                },
-                title: "Importados y Confeccionados",
-            },
-        },
-    };
-    const get_home_op = await get_home_block();
-
-    if (get_home_op.err) {
-        throw get_home_op.err;
-    }
+export async function loader({ context }: LoaderFunctionArgs) {
+    const result = await context.content.home.get();
 
     return json<LoaderData>(
         {
-            meta: seo_meta_tags(get_home_op.ok.home.seo, "/"),
-            home: get_home_op.ok.home,
+            meta: context.content.seoService.getMetaTags(result.homeBlock.seo, "/"),
+            home: result.homeBlock,
         },
         {
             headers: {
-                "Server-Timing": `get_home_op;desc="(st) Get Home";dur=${get_home_op.ok.time}`,
+                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta}`,
             },
         }
     );
@@ -109,10 +41,7 @@ export const headers: HeadersFunction = ({
     // errorHeaders,
 }) => {
     return {
-        "Server-Timing": [
-            loaderHeaders.get("Server-Timing") as string,
-            parentHeaders.get("Server-Timing") as string,
-        ].join(","),
+        "Server-Timing": [loaderHeaders.get("Server-Timing") as string, parentHeaders.get("Server-Timing") as string].join(","),
     };
 };
 // 🏡
