@@ -1,5 +1,5 @@
 import { type KyInstance } from "ky";
-import { type ISbRichtext } from "storyblok-js-client";
+import { ISbRichtext } from "node_modules/@storyblok/js/dist/types";
 import RichTextResolver from "storyblok-js-client/richTextResolver";
 import { z } from "zod";
 import { GRAPHQL_API_URL } from "../constants";
@@ -33,12 +33,11 @@ export class Serigrafia {
         });
         const data = await res.json();
         const serigrafiaBlock = serigrafiaParser.parse(data);
-        // console.log({ serigrafiaBlockNOtes: serigrafiaBlock.notes });
         return { serigrafiaBlock, delta: timer.delta() };
     }
 }
 
-const notesParser = z
+const noteParser = z
     .object({
         _uid: z.string(),
         summary: z.string(),
@@ -47,12 +46,15 @@ const notesParser = z
         }),
     })
     .transform((noteData) => {
+        const content = new RichTextResolver().render(noteData.details as ISbRichtext);
         return {
             id: noteData._uid,
             title: noteData.summary,
-            content: new RichTextResolver().render(noteData.details.content[0] as ISbRichtext),
+            content,
+            // content: new RichTextResolver().render(noteData.details.content[0] as ISbRichtext),
         };
     });
+export type SerigrafiaNote = z.infer<typeof noteParser>;
 
 const serigrafiaParser = z
     .object({
@@ -62,7 +64,7 @@ const serigrafiaParser = z
                     seo: seoParser,
                     title: z.string(),
                     hero_image: heroImageParser,
-                    notes: z.array(notesParser),
+                    notes: z.array(noteParser),
                 }),
             }),
         }),
