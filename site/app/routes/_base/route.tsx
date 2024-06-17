@@ -7,15 +7,15 @@ import { Footer } from "./footer";
 import { Navigation } from "./navigation";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-    const globalSettingsResult = await context.content.globalSettings.get();
+    const { business_data, links, delta } = await context.content.globalSettings.get();
     return json(
         {
-            navigation_links: globalSettingsResult.links,
-            business_data: globalSettingsResult.business_data,
+            navigation_links: links,
+            business_data,
         },
         {
             headers: {
-                "Server-Timing": `get_links_op;desc="(st) Get Links";dur=${0 /*globalSettingsResult.delta */}`,
+                "Server-Timing": `getGlobalSettings;desc="(st) Get Global Settings";dur=${delta}`,
             },
         }
     );

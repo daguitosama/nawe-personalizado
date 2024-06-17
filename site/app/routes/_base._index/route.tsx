@@ -4,7 +4,8 @@ import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { HTMLProps } from "react";
 import { FramedContent } from "~/components/FramedContent";
-import { Heading, Heading_l2 } from "~/components/Heading";
+import { Heading, HeadingL2 } from "~/components/Heading";
+import { HeroImage } from "~/components/HeroImage";
 import type { Home_Block, ServiceCard } from "./get_home_block.server";
 
 type LoaderData = {
@@ -57,31 +58,10 @@ export default function Index() {
     );
 }
 
-function HeroImage({ hero_image }: { hero_image: Home_Block["hero_image"] }) {
-    return (
-        <div>
-            <div className='relative w-full h-[390px] mx-auto md:hidden'>
-                <img
-                    src={hero_image.mobile.url}
-                    alt={hero_image.mobile.alt}
-                    className='w-full h-full absolute object-cover '
-                />
-            </div>
-            <div className='relative w-full h-[400px] hidden md:block'>
-                <img
-                    src={hero_image.desktop.url}
-                    alt={hero_image.desktop.alt}
-                    className='w-full h-full absolute object-cover'
-                />
-            </div>
-        </div>
-    );
-}
-
 function ServicesBlock({ block }: { block: Home_Block["services_block"] }) {
     return (
         <section>
-            <Heading>{block.title}</Heading>
+            <Heading variant='with-borders'>{block.title}</Heading>
             <ServiceBlockCards
                 service_cards={block.service_cards}
                 className='mt-[50px]'
@@ -151,7 +131,7 @@ function ServiceBlockCard({ card }: ServiceBlockCardProps) {
 function ArticlesBlock({ block }: { block: Home_Block["articles_block"] }) {
     return (
         <div className='grid gap-y-12'>
-            <Heading_l2>{block.title}</Heading_l2>
+            <HeadingL2>{block.title}</HeadingL2>
             <div className='group relative overflow-hidden grid gap-3 max-w-[450px] mx-auto'>
                 <div className='relative w-full overflow-hidden'>
                     <img

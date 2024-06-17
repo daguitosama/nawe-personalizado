@@ -1,6 +1,6 @@
 -   1 Business data
-    -   [] Update
-    -   [] Show
+    -   [x] Update
+    -   [x] Show
 -   3 Serigrafía Service
     -   Update
     -   Show
@@ -27,6 +27,11 @@
     -   Show
     -   List
 
+## Requisitos funcionales descripción documental
+
+-   1 Mostrar Información de Contacto
+-   2 Actualizar Información de Contacto
+
 ## Data Structures
 
 ### Business data Data
@@ -36,5 +41,8 @@
 -   What's app
 -   Email
 -   Address
--   Social Networks - Instagram NAWE +53 72076348 +53 53165883 nawecraft@gmail.com Ave.51 entre 58 A y 58 B, La Ceiba, Playa, La
-    Habana, Cuba. https://www.instagram.com/estudionawe
+-   Social Networks
+    -   Instagram
+
+NAWE +53 72076348 +53 53165883 nawecraft@gmail.com Ave.51 entre 58 A y 58 B, La Ceiba, Playa, La Habana, Cuba.
+https://www.instagram.com/estudionawe

@@ -56,13 +56,13 @@ type ArticlesBlock = {
 };
 
 /* End of Articles Block */
-
+export type HeroImage = {
+    mobile: Image;
+    desktop: Image;
+};
 export type Home_Block = {
     seo: SEO;
-    hero_image: {
-        mobile: Image;
-        desktop: Image;
-    };
+    hero_image: HeroImage;
     services_block: ServicesBlock;
     articles_block: ArticlesBlock;
     // packs: Home_Packs_Section_Block;
@@ -73,7 +73,7 @@ type Get_Home_Block_Result = {
     delta: number;
 };
 
-export const Hero_Image_Parser = z
+export const heroImageParser = z
     .array(
         z.object({
             mobile: z
@@ -213,7 +213,7 @@ export const Home_Block_Parser = z
                     seo: seoParser,
                     body: z.array(
                         z.object({
-                            hero_image: Hero_Image_Parser,
+                            hero_image: heroImageParser,
                             articles_block: Articles_Parser,
                             services_block: Services_Parser,
                         })

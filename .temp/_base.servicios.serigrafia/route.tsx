@@ -1,7 +1,7 @@
 import type { HeadersFunction, LoaderFunctionArgs } from "@remix-run/cloudflare";
-import { type MetaFunction, json } from "@remix-run/cloudflare";
-import { get_serigrafia_block, type Serigrafia_Block } from "./get_serigrafia_block";
+import { json, type MetaFunction } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
+import { get_serigrafia_block, type Serigrafia_Block } from "./get_serigrafia_block";
 
 type LoaderData = {
     serigrafia_block: Serigrafia_Block;
@@ -28,9 +28,9 @@ export async function loader({ context }: LoaderFunctionArgs) {
     );
 }
 
-// export const meta: MetaFunction = ({ data }: { data: LoaderData }) => {
-//     return data.meta;
-// };
+export const meta: MetaFunction = ({ data }: { data: LoaderData }) => {
+    return data.meta;
+};
 
 export const headers: HeadersFunction = ({
     // actionHeaders,
