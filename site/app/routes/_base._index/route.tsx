@@ -1,12 +1,11 @@
+import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { Home_Block, ServiceCard } from "./get_home_block.server";
-// import type { Image } from "~/lib/types";
-import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
 import type { HTMLProps } from "react";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading, Heading_l2 } from "~/components/Heading";
+import type { Home_Block, ServiceCard } from "./get_home_block.server";
 
 type LoaderData = {
     meta: ReturnType<MetaFunction>;
@@ -61,18 +60,18 @@ export default function Index() {
 function HeroImage({ hero_image }: { hero_image: Home_Block["hero_image"] }) {
     return (
         <div>
-            <div className='max-w-[580px] mx-auto md:hidden'>
+            <div className='relative w-full h-[390px] mx-auto md:hidden'>
                 <img
                     src={hero_image.mobile.url}
                     alt={hero_image.mobile.alt}
-                    className='w-full h-auto '
+                    className='w-full h-full absolute object-cover '
                 />
             </div>
-            <div className='w-full hidden md:block'>
+            <div className='relative w-full h-[400px] hidden md:block'>
                 <img
                     src={hero_image.desktop.url}
                     alt={hero_image.desktop.alt}
-                    className='w-full h-auto '
+                    className='w-full h-full absolute object-cover'
                 />
             </div>
         </div>

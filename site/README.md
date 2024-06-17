@@ -2,8 +2,8 @@
 
 -   [x] Refactor Content to a Injectable Service Pattern
 -   [ ] Pages
-    -   [ ] Home
-        -   [ ] Business Data
+    -   [x] Home
+        -   [x] Business Data
     -   [ ] Contact
     -   [ ] Services
         -   [ ] Serigrafía

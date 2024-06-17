@@ -37,6 +37,7 @@ export class GlobalSettings {
                         id
                         content {
                             navigation_links
+                            business_data
                         }
                     }
                 }
@@ -47,13 +48,14 @@ export class GlobalSettings {
             body: JSON.stringify({ query }),
         });
         const data = await res.json();
-        const links = GlobalSettingsQueryParser.parse(data);
-        return { links, delta: timer.delta() };
+        const { links, business_data } = GlobalSettingsQueryParser.parse(data);
+        return { links, business_data, delta: timer.delta() };
     }
 }
 
 type Global_Settings_Result = {
     links: MenuLink[];
+    business_data: BusinessData;
     delta: number;
 };
 
@@ -89,13 +91,24 @@ const GlobalSettingsQueryParser = z
                                     ),
                                 })
                             ),
+                            business_data: z.array(
+                                z.object({
+                                    _uid: z.string(),
+                                    email: z.string(),
+                                    phone: z.string(),
+                                    address: z.string(),
+                                    business_name: z.string(),
+                                    instagram_link: z.string(),
+                                    whatsapp_phone: z.string(),
+                                })
+                            ),
                         }),
                     })
                 ),
             }),
         }),
     })
-    .transform(function from_valid_query_to_menu_links({ data }): MenuLink[] {
+    .transform(function get_links_and_business_data({ data }): { links: MenuLink[]; business_data: BusinessData } {
         const links: MenuLink[] = [];
 
         function is_simple_link(link: { component: string }): link is { route: string } & { component: string } {
@@ -119,5 +132,16 @@ const GlobalSettingsQueryParser = z
                 });
             }
         }
-        return links;
+        const business_data: BusinessData = data.GlobalsettingsItems.items[0].content.business_data[0];
+
+        return { links, business_data };
     });
+
+export type BusinessData = {
+    email: string;
+    phone: string;
+    address: string;
+    business_name: string;
+    instagram_link: string;
+    whatsapp_phone: string;
+};

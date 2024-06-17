@@ -31,10 +31,10 @@
 
 ### Business data Data
 
+-   Name
 -   Phone
 -   What's app
 -   Email
 -   Address
--   Social Networks
-    -   Instagram
-    -   Facebook
+-   Social Networks - Instagram NAWE +53 72076348 +53 53165883 nawecraft@gmail.com Ave.51 entre 58 A y 58 B, La Ceiba, Playa, La
+    Habana, Cuba. https://www.instagram.com/estudionawe

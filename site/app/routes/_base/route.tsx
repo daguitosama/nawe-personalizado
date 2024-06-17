@@ -11,6 +11,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
     return json(
         {
             navigation_links: globalSettingsResult.links,
+            business_data: globalSettingsResult.business_data,
         },
         {
             headers: {
@@ -32,7 +33,7 @@ export const headers: HeadersFunction = ({
 };
 
 export default function BaseLayout() {
-    const { navigation_links } = useLoaderData<typeof loader>();
+    const { navigation_links, business_data } = useLoaderData<typeof loader>();
     const [is_nav_open, set_is_open] = useState<boolean>(false);
     return (
         <div className='antialiased'>
@@ -47,7 +48,7 @@ export default function BaseLayout() {
                     <Outlet />
                 </main>
                 <div className='mt-[60px]'>
-                    <Footer />
+                    <Footer business_data={business_data} />
                 </div>
             </div>
         </div>
