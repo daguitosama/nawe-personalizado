@@ -23,7 +23,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         },
         {
             headers: {
-                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta}`,
+                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta};`,
             },
         }
     );
@@ -40,8 +40,13 @@ export const headers: HeadersFunction = ({
     parentHeaders,
     // errorHeaders,
 }) => {
+    const stKey = "Server-Timing";
+    const parentTiming = parentHeaders.get(stKey) || "";
+    const loaderTiming = loaderHeaders.get(stKey) || "";
+    const timingValues = `${parentTiming}, ${loaderTiming}`;
+
     return {
-        "Server-Timing": [loaderHeaders.get("Server-Timing") as string, parentHeaders.get("Server-Timing") as string].join(","),
+        "Server-Timing": timingValues,
     };
 };
 // 🏡
