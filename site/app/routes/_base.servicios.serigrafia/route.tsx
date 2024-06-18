@@ -23,17 +23,12 @@ export async function loader({ context }: LoaderFunctionArgs) {
     );
 }
 
-export const headers: HeadersFunction = ({
-    // actionHeaders,
-    loaderHeaders,
-    parentHeaders,
-    // errorHeaders,
-}) => {
+export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
     const fullTimingHeader = parentHeaders
         .get("Server-Timing")
         ?.concat(", ", loaderHeaders.get("Server-Timing") as string) as string;
     return {
-        "Server-Timing": fullTimingHeader, //loaderHeaders.get("Server-Timing") as string,
+        "Server-Timing": fullTimingHeader,
     };
 };
 
