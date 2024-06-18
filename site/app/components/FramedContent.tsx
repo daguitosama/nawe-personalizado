@@ -6,7 +6,7 @@ interface FramedContentProps extends HTMLProps<HTMLDivElement> {}
 export function FramedContent({ children, className, ...props }: FramedContentProps) {
     return (
         <div
-            className={clsx("w-full max-w-screen-lg mx-auto px-[30px] ", className)}
+            className={clsx("max-w-screen-md mx-auto w-full px-[30px] ", className)}
             {...props}
         >
             {children}

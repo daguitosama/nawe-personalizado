@@ -6,6 +6,7 @@ import clsx from "clsx";
 import FocusTrap from "focus-trap-react";
 import { Fragment, useState } from "react";
 import { CompoundNavigationLink, MenuLink, NavigationLink } from "services/content/GlobalSettings";
+import { FramedContent } from "~/components/FramedContent";
 import { useBodyOverflow } from "~/lib.client/hooks";
 
 export function Navigation({ links, signal_nav_toggle }: { links: MenuLink[]; signal_nav_toggle: () => void }) {
@@ -58,30 +59,37 @@ export function Navigation({ links, signal_nav_toggle }: { links: MenuLink[]; si
             >
                 {/* menu header */}
                 <div className=' fixed top-0 left-0 z-50 bg-white  w-full'>
-                    <div className='max-w-screen-lg mx-auto w-full px-[30px] h-[70px]    flex items-center justify-between '>
-                        <div className='flex items-center gap-[15px]'>
-                            <div className=''>
-                                <Link
-                                    to='/'
-                                    className='h-full flex items-center justify-between gap-4 focus:outline-none'
-                                    onClick={() => {
-                                        if (!is_open) {
-                                            return;
-                                        }
-                                        close_menu();
-                                    }}
-                                >
-                                    <Logo className='w-[60px]' />
-                                    <span className='font-medium text-base tracking-widest'>Estudio</span>
-                                </Link>
+                    <FramedContent>
+                        <div className='h-[70px] flex items-center justify-between '>
+                            <div className='flex items-center gap-[15px]'>
+                                <div className=''>
+                                    <Link
+                                        to='/'
+                                        className='h-full flex items-center justify-between gap-4 focus:outline-none'
+                                        onClick={() => {
+                                            if (!is_open) {
+                                                return;
+                                            }
+                                            close_menu();
+                                        }}
+                                    >
+                                        <Logo
+                                            className={clsx(
+                                                "w-[60px] transition-transform duration-500",
+                                                is_open ? "scale-105" : ""
+                                            )}
+                                        />
+                                        <span className='font-medium text-base tracking-widest'>Estudio</span>
+                                    </Link>
+                                </div>
                             </div>
-                        </div>
 
-                        <MenuButton
-                            is_open={is_open}
-                            on_click={onMenuButtonClick}
-                        />
-                    </div>
+                            <MenuButton
+                                is_open={is_open}
+                                on_click={onMenuButtonClick}
+                            />
+                        </div>
+                    </FramedContent>
                 </div>
                 {/* menu items */}
                 <div>
@@ -129,7 +137,7 @@ function Menu({ open, on_close, links }: { open: boolean; on_close: () => void; 
                     leaveTo='-translate-x-full '
                 >
                     <div className='relative z-30 w-full  h-[calc(100dvh_-_70px)] mt-[70px] bg-white flex justify-center overflow-y-scroll'>
-                        <div className='max-w-screen-lg mx-auto w-full px-[30px]  '>
+                        <FramedContent>
                             <div
                                 className='md:max-w-[300px]'
                                 id='navigation-menu-items'
@@ -139,7 +147,7 @@ function Menu({ open, on_close, links }: { open: boolean; on_close: () => void; 
                                     on_click={on_close}
                                 />
                             </div>
-                        </div>
+                        </FramedContent>
                     </div>
                 </Transition.Child>
             </div>
