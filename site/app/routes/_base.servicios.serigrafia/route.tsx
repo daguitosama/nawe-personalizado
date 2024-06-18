@@ -46,9 +46,7 @@ export default function Serigrafia() {
             <HeroImage hero_image={hero_image} />
             <FramedContent>
                 <Heading variant='fluid'>{title}</Heading>
-                <div className='max-w-lg'>
-                    <Notes notes={notes} />
-                </div>
+                <Notes notes={notes} />
             </FramedContent>
         </div>
     );
