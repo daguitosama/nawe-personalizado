@@ -23,7 +23,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         },
         {
             headers: {
-                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta};`,
+                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta}`,
             },
         }
     );
