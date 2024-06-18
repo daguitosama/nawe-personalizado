@@ -3,7 +3,7 @@ interface HeadingProps extends HTMLProps<HTMLHeadingElement> {
     /**
      * Property description
      */
-    variant?: "with-borders" | "default";
+    variant?: "with-borders" | "default" | "fluid";
 }
 
 /**
@@ -16,6 +16,18 @@ export const Heading = ({ children, variant = "default", ...props }: HeadingProp
                 <h1
                     {...props}
                     className='text-xl font-bold text-center '
+                >
+                    {children}
+                </h1>
+            </div>
+        );
+    }
+    if (variant == "fluid") {
+        return (
+            <div className='w-full py-8 md:py-10'>
+                <h1
+                    {...props}
+                    className='text-xl md:text-3xl font-bold'
                 >
                     {children}
                 </h1>

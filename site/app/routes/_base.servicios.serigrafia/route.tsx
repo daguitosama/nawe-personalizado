@@ -45,8 +45,10 @@ export default function Serigrafia() {
         <div className=''>
             <HeroImage hero_image={hero_image} />
             <FramedContent>
-                <Heading>{title}</Heading>
-                <Notes notes={notes} />
+                <Heading variant='fluid'>{title}</Heading>
+                <div className='max-w-lg'>
+                    <Notes notes={notes} />
+                </div>
             </FramedContent>
         </div>
     );
@@ -58,7 +60,7 @@ function Notes({ notes }: { notes: SerigrafiaBlock["notes"][0][] }) {
         <div>
             <Accordion.Root
                 type='single'
-                className='grid gap-6'
+                className='grid gap-8 md:gap-10'
             >
                 {notes.map((note) => {
                     return (

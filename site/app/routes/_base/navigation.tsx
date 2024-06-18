@@ -58,7 +58,7 @@ export function Navigation({ links, signal_nav_toggle }: { links: MenuLink[]; si
             >
                 {/* menu header */}
                 <div className=' fixed top-0 left-0 z-50 bg-white  w-full'>
-                    <div className='  max-w-screen-xl mx-auto w-full px-[30px] h-[70px]    flex items-center justify-between '>
+                    <div className='max-w-screen-lg mx-auto w-full px-[30px] h-[70px]    flex items-center justify-between '>
                         <div className='flex items-center gap-[15px]'>
                             <div className=''>
                                 <Link
@@ -129,7 +129,7 @@ function Menu({ open, on_close, links }: { open: boolean; on_close: () => void; 
                     leaveTo='-translate-x-full '
                 >
                     <div className='relative z-30 w-full  h-[calc(100dvh_-_70px)] mt-[70px] bg-white flex justify-center overflow-y-scroll'>
-                        <div className='max-w-screen-xl mx-auto w-full px-[30px]  '>
+                        <div className='max-w-screen-lg mx-auto w-full px-[30px]  '>
                             <div
                                 className='md:max-w-[300px]'
                                 id='navigation-menu-items'

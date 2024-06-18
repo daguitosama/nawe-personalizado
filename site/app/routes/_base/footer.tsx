@@ -1,8 +1,6 @@
-import { EnvelopeIcon, MapPinIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import { useLocation } from "@remix-run/react";
 import clsx from "clsx";
 import { BusinessData } from "services/content/GlobalSettings";
-import { WhatsAppIcon } from "~/components/WhatsAppIcon";
 
 export function Footer({ business_data }: { business_data: BusinessData }) {
     const { email, address, instagram_link, phone, whatsapp_phone } = business_data;
@@ -10,22 +8,21 @@ export function Footer({ business_data }: { business_data: BusinessData }) {
     return (
         <footer
             className={clsx(
-                "max-w-screen-xl mx-auto w-full px-[30px] ",
+                "max-w-screen-lg mx-auto w-full px-[30px] ",
                 isContactPage ? null : "border-t border-t-zinc-300/50 pt-10"
             )}
         >
-            <div className='grid gap-[50px]  md:grid-cols-2 lg:grid-cols-4'>
+            <div className='grid gap-[30px]  md:grid-cols-2 lg:grid-cols-4'>
                 {/* contact */}
-                <div className=' grid gap-[15px]'>
+                <div className=' flex flex-col gap-[15px]'>
                     <h3
                         className='text-xl font-medium leading-none'
                         id='contact-section'
                     >
                         Contáctanos
                     </h3>
-                    <div className='grid gap-[10px]'>
+                    <div className='flex flex-col gap-[10px]'>
                         <div className='flex items-center gap-[10px]'>
-                            <WhatsAppIcon className='w-5 h-5' />
                             <a
                                 rel='noreferrer'
                                 href={`https://wa.me/${cleanPhoneNumber(whatsapp_phone)}?text=Hola`}
@@ -37,7 +34,6 @@ export function Footer({ business_data }: { business_data: BusinessData }) {
                         </div>
 
                         <div className='flex items-center gap-[10px]'>
-                            <EnvelopeIcon className='w-5 h-5' />
                             <a
                                 rel='noreferrer'
                                 href={`mailto:${email}`}
@@ -51,9 +47,9 @@ export function Footer({ business_data }: { business_data: BusinessData }) {
                 </div>
 
                 {/* meet us */}
-                <div className=' grid gap-[15px]'>
+                <div className=' flex flex-col gap-[15px] '>
                     <h3 className='text-xl  font-medium leading-none'>Conócenos</h3>
-                    <div className='grid gap-[10px]'>
+                    <div className=''>
                         <div className='flex items-center gap-[10px]'>
                             <a
                                 rel='noreferrer'
@@ -73,14 +69,10 @@ export function Footer({ business_data }: { business_data: BusinessData }) {
 
                     <div className='grid gap-[10px]'>
                         <div className='flex items-center gap-[10px]'>
-                            <div>
-                                <MapPinIcon className='w-5 h-5 ' />
-                            </div>
                             <span className='text-sm'>{address}</span>
                         </div>
 
                         <div className='flex items-center gap-[10px]'>
-                            <PhoneIcon className='w-5 h-5' />
                             <a
                                 rel='noreferrer'
                                 href={`tel:${cleanPhoneNumber(phone)}`}
