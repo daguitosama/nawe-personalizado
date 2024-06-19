@@ -294,32 +294,6 @@ function OrderForm() {
             >
                 <WhatsAppIcon className='size-6 fill-white' /> <span className='text-xl font-medium'>Realizar Orden</span>
             </Link>
-
-            {/* debug */}
-            {false && (
-                <div className='fixed w-full bottom-0 left-0 z-20 p-[30px] bg-slate-200 rounded-t-2xl'>
-                    <pre>
-                        <code className='text-sm'>
-                            {JSON.stringify(
-                                {
-                                    clientHasArticle,
-                                    numberOfArticles,
-                                    prenda,
-                                    location1,
-                                    location1Size,
-                                    location1NumberOfColors,
-                                    location2Enabled,
-                                    location2,
-                                    location2Size,
-                                    location2NumberOfColors,
-                                },
-                                null,
-                                2
-                            )}
-                        </code>
-                    </pre>
-                </div>
-            )}
         </div>
     );
 }
@@ -361,9 +335,7 @@ function FormField({ children, className }: ComponentPropsWithoutRef<"div">) {
 }
 
 function getMessageLink(phoneNumber: string, message: string) {
-    return `https://api.whatsapp.com/send/?phone=${encodeURIComponent(phoneNumber)}&text=${encodeURIComponent(
-        message
-    )}&type=phone_number&app_absent=0`;
+    return `https://wa.me/${phoneNumber.replace(/\s/g, "")}?text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
 }
 
 function craftOrderMessage({
