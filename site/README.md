@@ -4,7 +4,7 @@
 -   [ ] Pages
     -   [x] Home
         -   [x] Business Data
-    -   [ ] Contact
+    -   [x] Contact
     -   [ ] Services
         -   [ ] Serigrafía
         -   [ ] Etiquetas
