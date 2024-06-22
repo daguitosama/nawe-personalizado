@@ -1,6 +1,6 @@
 import { useLocation } from "@remix-run/react";
 import clsx from "clsx";
-import { BusinessData } from "services/content/GlobalSettings";
+import { BusinessData } from "services/content/BusinessData";
 import { FramedContent } from "~/components/FramedContent";
 
 export function Footer({ business_data }: { business_data: BusinessData }) {

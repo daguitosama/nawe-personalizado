@@ -3,15 +3,52 @@ import { json } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import clsx from "clsx";
 import { useState } from "react";
+import { MenuLink } from "services/content/BusinessData";
 import { Footer } from "./footer";
 import { Navigation } from "./navigation";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-    const { business_data, links, delta } = await context.content.globalSettings.get();
+    const static_navigation_links: MenuLink[] = [
+        {
+            id: "compound-link-0",
+            label: "Servicios",
+            links: [
+                // suministros
+                {
+                    id: "id-0",
+                    label: "Serigrafía ",
+                    route: "/servicios/serigrafia",
+                },
+                // Confección
+                {
+                    id: "id-1",
+                    label: "Etiquetas",
+                    route: "/servicios/etiquetas",
+                },
+                // Impresiones en Serigrafía y Sublimación
+                {
+                    id: "id-2",
+                    label: "Empaquetado",
+                    route: "/servicios/empaquetado",
+                },
+            ],
+        },
+        {
+            id: "2",
+            label: "Artículos Importados y Confeccionados ",
+            route: "/articulos-importados-y-confeccionados",
+        },
+        {
+            id: "3",
+            label: "Contactos",
+            route: "/contacto",
+        },
+    ];
+    const { businessData, delta } = await context.content.businessData.get();
     return json(
         {
-            navigation_links: links,
-            business_data,
+            navigation_links: static_navigation_links,
+            businessData,
         },
         {
             headers: {
@@ -33,7 +70,7 @@ export const headers: HeadersFunction = ({
 };
 
 export default function BaseLayout() {
-    const { navigation_links, business_data } = useLoaderData<typeof loader>();
+    const { navigation_links, businessData } = useLoaderData<typeof loader>();
     const [is_nav_open, set_is_open] = useState<boolean>(false);
     return (
         <div className='antialiased'>
@@ -48,7 +85,7 @@ export default function BaseLayout() {
                     <Outlet />
                 </main>
                 <div className='mt-[60px]'>
-                    <Footer business_data={business_data} />
+                    <Footer business_data={businessData} />
                 </div>
             </div>
         </div>

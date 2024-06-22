@@ -3,34 +3,32 @@ import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-r
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { HTMLProps } from "react";
-import { FramedContent } from "~/components/FramedContent";
 import { Heading, HeadingL2 } from "~/components/Heading";
-import { HeroImage } from "~/components/HeroImage";
 import type { Home_Block, ServiceCard } from "./get_home_block.server";
 
 type LoaderData = {
-    meta: ReturnType<MetaFunction>;
-    home: Home_Block;
+    // meta: ReturnType<MetaFunction>;
+    // home: Home_Block;
 };
 
 export async function loader({ context }: LoaderFunctionArgs) {
-    const result = await context.content.home.get();
+    // const result = await context.content.home.get();
 
     return json<LoaderData>(
         {
-            meta: context.content.seoService.getMetaTags(result.homeBlock.seo, "/"),
-            home: result.homeBlock,
+            // meta: [] // context.content.seoService.getMetaTags(result.homeBlock.seo, "/"),
+            // home: result.homeBlock,
         },
         {
             headers: {
-                "Server-Timing": `content.home.get();desc="(st) Get Home";dur=${result.delta}`,
+                "Server-Timing": `content.home.get;desc="(pb) Get Home";dur=${0}`,
             },
         }
     );
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-    if (!data) return [];
+    if (!data || !data.meta) return [];
     return data.meta;
 };
 
@@ -54,11 +52,11 @@ export default function Index() {
     const loaderData = useLoaderData<typeof loader>();
     return (
         <div>
-            <HeroImage hero_image={loaderData.home.hero_image} />
+            {/* <HeroImage hero_image={loaderData.home.hero_image} />
             <FramedContent className='mt-[50px] pb-10 grid gap-16'>
                 <ServicesBlock block={loaderData.home.services_block} />
                 <ArticlesBlock block={loaderData.home.articles_block} />
-            </FramedContent>
+            </FramedContent> */}
         </div>
     );
 }

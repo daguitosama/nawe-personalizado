@@ -5,7 +5,7 @@ import { Link } from "@remix-run/react";
 import clsx from "clsx";
 import FocusTrap from "focus-trap-react";
 import { Fragment, useState } from "react";
-import { CompoundNavigationLink, MenuLink, NavigationLink } from "services/content/GlobalSettings";
+import { CompoundNavigationLink, MenuLink, NavigationLink } from "services/content/BusinessData";
 import { FramedContent } from "~/components/FramedContent";
 import { useBodyOverflow } from "~/lib.client/hooks";
 

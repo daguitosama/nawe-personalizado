@@ -1,6 +1,6 @@
 import { type AppLoadContext } from "@remix-run/cloudflare";
-import { Content } from "./services/content";
 import { type PlatformProxy } from "wrangler";
+import { Content } from "./services/content";
 
 // When using `wrangler.toml` to configure bindings,
 // `wrangler types` will generate types for those bindings
@@ -9,7 +9,7 @@ import { type PlatformProxy } from "wrangler";
 // even if no `wrangler.toml` exists.
 interface Env {
     ST_ACCESS_TOKEN: string;
-    COOKIE_SECRET: string[];
+    BACKEND_API_URL: string;
 }
 
 type Cloudflare = Omit<PlatformProxy<Env>, "dispose">;
@@ -30,6 +30,6 @@ type GetLoadContext = (args: {
 export const getLoadContext: GetLoadContext = ({ context }) => {
     return {
         ...context,
-        content: new Content(context.cloudflare.env.ST_ACCESS_TOKEN),
+        content: new Content(context.cloudflare.env.BACKEND_API_URL),
     };
 };

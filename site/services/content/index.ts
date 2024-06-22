@@ -1,24 +1,17 @@
-import ky, { type KyInstance } from "ky";
-import { GlobalSettings } from "./GlobalSettings";
-import { Home } from "./Home";
+import PocketBase from "pocketbase";
+import { BusinessDataService } from "./BusinessData";
 import { SeoService } from "./Seo";
-import { Serigrafia } from "./Serigrafia";
 export class Content {
-    private client: KyInstance;
-    public globalSettings: GlobalSettings;
+    private client: PocketBase;
+    public businessData: BusinessDataService;
     public seoService: SeoService;
-    public home: Home;
-    public serigrafia: Serigrafia;
-    constructor(stAccessToken: string) {
-        this.client = ky.create({
-            headers: {
-                "Content-Type": "application/json",
-                Token: stAccessToken,
-            },
-        });
-        this.globalSettings = new GlobalSettings(this.client);
+    // public home: Home;
+    // public serigrafia: Serigrafia;
+    constructor(backendApiURL: string) {
+        this.client = new PocketBase(backendApiURL);
+        this.businessData = new BusinessDataService(this.client);
         this.seoService = new SeoService();
-        this.home = new Home(this.client);
-        this.serigrafia = new Serigrafia(this.client);
+        // this.home = new Home(this.client);
+        // this.serigrafia = new Serigrafia(this.client);
     }
 }
