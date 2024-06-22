@@ -1,30 +1,110 @@
 import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
-import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData } from "@remix-run/react";
 import type { HTMLProps } from "react";
+import { seoTagsParams } from "services/content/Seo";
+import { FramedContent } from "~/components/FramedContent";
 import { Heading, HeadingL2 } from "~/components/Heading";
-import type { Home_Block, ServiceCard } from "./get_home_block.server";
+import { HeroImage } from "~/components/HeroImage";
+
+export type Image = {
+    url: string;
+    alt: string;
+};
+/* Services Block */
+type ServicesBlock = {
+    title: string;
+    serviceCards: ServiceCard[];
+};
+export type ServiceCard = {
+    id: string;
+    label: string;
+    route: string;
+    image: Image;
+};
+/* End of Services Block */
+
+/* Articles Block */
+type ArticlesBlock = {
+    title: string;
+    card: {
+        route: string;
+        title: string;
+        image: Image;
+    };
+};
+
+/* End of Articles Block */
+
+export type HomeBlock = {
+    seo: seoTagsParams;
+    heroImage: {
+        mobile: Image;
+        desktop: Image;
+    };
+    servicesBlock: ServicesBlock;
+    articlesBlock: ArticlesBlock;
+};
 
 type LoaderData = {
-    // meta: ReturnType<MetaFunction>;
-    // home: Home_Block;
+    meta: ReturnType<MetaFunction>;
+    home: HomeBlock;
 };
 
 export async function loader({ context }: LoaderFunctionArgs) {
-    // const result = await context.content.home.get();
-
-    return json<LoaderData>(
-        {
-            // meta: [] // context.content.seoService.getMetaTags(result.homeBlock.seo, "/"),
-            // home: result.homeBlock,
-        },
-        {
-            headers: {
-                "Server-Timing": `content.home.get;desc="(pb) Get Home";dur=${0}`,
+    const homeBlock: HomeBlock = {
+        seo: { title: "", description: "", socialImage: "" },
+        heroImage: {
+            desktop: {
+                alt: "",
+                url: "",
             },
-        }
-    );
+            mobile: {
+                alt: "",
+                url: "",
+            },
+        },
+        servicesBlock: {
+            title: "Servicios de Producción para el Emprendimiento y la Creación Independiente",
+            serviceCards: [
+                {
+                    id: "sc-0",
+                    image: { alt: "", url: "" },
+                    label: "Etiquetas",
+                    route: "/servicios/etiquetas",
+                },
+                {
+                    id: "sc-1",
+                    image: { alt: "", url: "" },
+                    label: "Serigrafía",
+                    route: "/servicios/serigrafia",
+                },
+                {
+                    id: "sc-2",
+                    image: { alt: "", url: "" },
+                    label: "Empaquetado",
+                    route: "/servicios/empaquetado",
+                },
+            ],
+        },
+        articlesBlock: {
+            title: "Artículos",
+            card: {
+                route: "/articles",
+                title: "Artículos importados y confeccionados",
+                image: { alt: "", url: "" },
+            },
+        },
+    };
+
+    return json<LoaderData>({
+        meta: context.content.seoService.getMetaTags({
+            seo: homeBlock.seo,
+            relativeRoute: "/",
+        }),
+        home: homeBlock,
+    });
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
@@ -32,41 +112,26 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return data.meta;
 };
 
-export const headers: HeadersFunction = ({
-    // actionHeaders,
-    loaderHeaders,
-    parentHeaders,
-    // errorHeaders,
-}) => {
-    const stKey = "Server-Timing";
-    const parentTiming = parentHeaders.get(stKey) || "";
-    const loaderTiming = loaderHeaders.get(stKey) || "";
-    const timingValues = `${parentTiming}, ${loaderTiming}`;
-
-    return {
-        "Server-Timing": timingValues,
-    };
-};
 // 🏡
 export default function Index() {
     const loaderData = useLoaderData<typeof loader>();
     return (
         <div>
-            {/* <HeroImage hero_image={loaderData.home.hero_image} />
+            <HeroImage hero_image={loaderData.home.heroImage} />
             <FramedContent className='mt-[50px] pb-10 grid gap-16'>
-                <ServicesBlock block={loaderData.home.services_block} />
-                <ArticlesBlock block={loaderData.home.articles_block} />
-            </FramedContent> */}
+                <ServicesBlock block={loaderData.home.servicesBlock} />
+                <ArticlesBlock block={loaderData.home.articlesBlock} />
+            </FramedContent>
         </div>
     );
 }
 
-function ServicesBlock({ block }: { block: Home_Block["services_block"] }) {
+function ServicesBlock({ block }: { block: HomeBlock["servicesBlock"] }) {
     return (
         <section>
             <Heading variant='with-borders'>{block.title}</Heading>
             <ServiceBlockCards
-                service_cards={block.service_cards}
+                service_cards={block.serviceCards}
                 className='mt-[50px]'
             />
         </section>
@@ -131,7 +196,7 @@ function ServiceBlockCard({ card }: ServiceBlockCardProps) {
     );
 }
 
-function ArticlesBlock({ block }: { block: Home_Block["articles_block"] }) {
+function ArticlesBlock({ block }: { block: HomeBlock["articlesBlock"] }) {
     return (
         <div className='grid gap-y-12'>
             <HeadingL2>{block.title}</HeadingL2>
