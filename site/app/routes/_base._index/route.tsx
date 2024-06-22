@@ -35,8 +35,6 @@ type ArticlesBlock = {
     };
 };
 
-/* End of Articles Block */
-
 export type HomeBlock = {
     seo: seoTagsParams;
     heroImage: {
@@ -54,15 +52,19 @@ type LoaderData = {
 
 export async function loader({ context }: LoaderFunctionArgs) {
     const homeBlock: HomeBlock = {
-        seo: { title: "", description: "", socialImage: "" },
+        seo: {
+            title: "Servicios de Producción para el Emprendimiento y la Creación Independiente en Cuba | NAWE Estudio",
+            description: "",
+            socialImage: "",
+        },
         heroImage: {
             desktop: {
-                alt: "",
-                url: "",
+                alt: "NAWE Estudio",
+                url: "/img/home/nawe-personalizado-desktop.webp",
             },
             mobile: {
-                alt: "",
-                url: "",
+                alt: "NAWE Estudio",
+                url: "/img/home/nawe-personalizado-mobile.webp",
             },
         },
         servicesBlock: {
@@ -70,19 +72,22 @@ export async function loader({ context }: LoaderFunctionArgs) {
             serviceCards: [
                 {
                     id: "sc-0",
-                    image: { alt: "", url: "" },
+                    image: { alt: "Etiquetas NAWE", url: "/img/home/etiquetas-nawe-personalizado.webp" },
                     label: "Etiquetas",
                     route: "/servicios/etiquetas",
                 },
                 {
                     id: "sc-1",
-                    image: { alt: "", url: "" },
+                    image: {
+                        alt: "Serigrafia en bolsa NAWE",
+                        url: "/img/home/bolsa-de-lienzo-personalizada-con-serigrafia.webp",
+                    },
                     label: "Serigrafía",
                     route: "/servicios/serigrafia",
                 },
                 {
                     id: "sc-2",
-                    image: { alt: "", url: "" },
+                    image: { alt: "Bolsas de Papel Kraft personalizadas NAWE", url: "/img/home/bolsas-de-papel-kraft.webp" },
                     label: "Empaquetado",
                     route: "/servicios/empaquetado",
                 },
@@ -93,7 +98,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
             card: {
                 route: "/articles",
                 title: "Artículos importados y confeccionados",
-                image: { alt: "", url: "" },
+                image: { alt: "Conjunto de artículos NAWE", url: "/img/home/articles-nawe-personalizado.webp" },
             },
         },
     };
