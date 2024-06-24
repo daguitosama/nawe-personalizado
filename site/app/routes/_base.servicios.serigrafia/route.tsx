@@ -7,7 +7,7 @@ import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData, useMatches } from "@remix-run/react";
 import clsx from "clsx";
 import { ComponentPropsWithoutRef, useState } from "react";
-import { SerigrafiaBlock, SerigrafiaNote } from "services/content/Serigrafia";
+import { Detail } from "services/types";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading } from "~/components/Heading";
 import { HeroImage } from "~/components/HeroImage";
@@ -15,10 +15,14 @@ import { RadioGroupCombo, RadioGroupOption } from "~/components/RadioGroup";
 import { WhatsAppIcon } from "~/components/WhatsAppIcon";
 
 export async function loader({ context }: LoaderFunctionArgs) {
+    await context.content.serigrafia.get();
     const { serigrafiaBlock, delta } = await context.content.serigrafia.get();
     return json(
         {
-            meta: context.content.seoService.getMetaTags(serigrafiaBlock.seo, "/servicios/serigrafia"),
+            meta: context.content.seoService.getMetaTags({
+                seo: serigrafiaBlock.seo,
+                relativeRoute: "/servicios/serigrafia",
+            }),
             serigrafiaBlock,
         },
         {
@@ -45,15 +49,15 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Serigrafia() {
     const {
-        serigrafiaBlock: { hero_image, notes, title },
+        serigrafiaBlock: { heroImage, details, title },
     } = useLoaderData<typeof loader>();
     return (
         <div className=''>
-            <HeroImage hero_image={hero_image} />
+            <HeroImage heroImage={heroImage} />
             <FramedContent className='flex flex-col gap-20'>
                 <div>
                     <Heading variant='fluid'>{title}</Heading>
-                    <Notes notes={notes} />
+                    <Details details={details} />
                 </div>
                 <OrderForm />
             </FramedContent>
@@ -61,7 +65,7 @@ export default function Serigrafia() {
     );
 }
 
-function Notes({ notes }: { notes: SerigrafiaBlock["notes"][0][] }) {
+function Details({ details }: { details: Detail[] }) {
     // const defaultAccordionValue = notes[0].id;
     return (
         <div>
@@ -69,11 +73,11 @@ function Notes({ notes }: { notes: SerigrafiaBlock["notes"][0][] }) {
                 type='single'
                 className='grid gap-8 md:gap-10'
             >
-                {notes.map((note) => {
+                {details.map((detail) => {
                     return (
-                        <Note
-                            note={note}
-                            key={note.id}
+                        <DetailCard
+                            detail={detail}
+                            key={detail.id}
                         />
                     );
                 })}
@@ -82,15 +86,15 @@ function Notes({ notes }: { notes: SerigrafiaBlock["notes"][0][] }) {
     );
 }
 
-function Note({ note }: { note: SerigrafiaNote }) {
+function DetailCard({ detail }: { detail: Detail }) {
     return (
         <Accordion.AccordionItem
-            value={note.id}
+            value={detail.id}
             className='group'
         >
             <Accordion.Header>
                 <Accordion.AccordionTrigger className=' w-full flex items-center justify-between'>
-                    <h3 className='font-bold text-lg'>{note.title}</h3>
+                    <h3 className='font-bold text-lg'>{detail.summary}</h3>
                     <ChevronDownIcon
                         className='size-5 group-data-[state=open]:rotate-180 transition-transform duration-300'
                         aria-hidden
@@ -100,7 +104,7 @@ function Note({ note }: { note: SerigrafiaNote }) {
             <Accordion.AccordionContent className='mt-2 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden '>
                 <div
                     className=''
-                    dangerouslySetInnerHTML={{ __html: note.content }}
+                    dangerouslySetInnerHTML={{ __html: detail.content }}
                 />
             </Accordion.AccordionContent>
         </Accordion.AccordionItem>

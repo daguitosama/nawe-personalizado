@@ -7,7 +7,7 @@ import { Content } from "./services/content";
 // into the global `Env` interface.
 // Need this empty interface so that typechecking passes
 // even if no `wrangler.toml` exists.
-interface Env {
+export interface Env {
     ST_ACCESS_TOKEN: string;
     BACKEND_API_URL: string;
 }
@@ -30,6 +30,6 @@ type GetLoadContext = (args: {
 export const getLoadContext: GetLoadContext = ({ context }) => {
     return {
         ...context,
-        content: new Content(context.cloudflare.env.BACKEND_API_URL),
+        content: new Content(context.cloudflare.env),
     };
 };

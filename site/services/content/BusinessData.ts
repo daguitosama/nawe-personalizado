@@ -31,7 +31,7 @@ export class BusinessDataService {
 
         const data = await this.client.collection("business_data").getOne("1z9c8o6ccyqms9c");
         const businessData = businessDataParser.parse(data);
-        console.log({ businessData, delta: timer.delta() });
+
         return { businessData, delta: timer.delta() };
     }
 }

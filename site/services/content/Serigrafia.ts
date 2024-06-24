@@ -1,79 +1,87 @@
-import { type KyInstance } from "ky";
-import { ISbRichtext } from "node_modules/@storyblok/js/dist/types";
-import RichTextResolver from "storyblok-js-client/richTextResolver";
+import PocketBase from "pocketbase";
+import { Detail } from "services/types";
 import { z } from "zod";
-import { GRAPHQL_API_URL } from "../constants";
-import { heroImageParser } from "./Home";
-import { seoParser } from "./Seo";
+import { HeroImage } from "~/components/HeroImage";
+import { BackendFileService } from "./BackendFileService";
+import { seoTagsParams } from "./Seo";
 import { Timer } from "./Timer";
-
+const COLLECTION = "services";
+const RECORD_ID = "679lydk8ay1wy20";
 export class Serigrafia {
-    private client: KyInstance;
-    constructor(client: KyInstance) {
+    private client: PocketBase;
+    private backendFileService: BackendFileService;
+    constructor(client: PocketBase, backendFileService: BackendFileService) {
         this.client = client;
+        this.backendFileService = backendFileService;
     }
 
     async get(): Promise<SerigrafiaResult> {
         const timer = new Timer();
-        const query = `#graphql
-            {
-                SerigrafiapageItem(id: "servicios/serigrafia"){
-                    content{
-                        seo
-                        title
-                        hero_image
-                        notes
-                    }
-                }
-            }
-        `;
 
-        const res = await this.client.post(GRAPHQL_API_URL, {
-            body: JSON.stringify({ query }),
+        const data = await this.client.collection(COLLECTION).getOne<SerigrafiaBlock>(RECORD_ID, {
+            expand: "details",
         });
-        const data = await res.json();
-        const serigrafiaBlock = serigrafiaParser.parse(data);
+        // console.log(JSON.stringify(data, null, 2));
+        const serigrafiaBlock = getSerigrafiaPageParser(this.backendFileService).parse(data);
         return { serigrafiaBlock, delta: timer.delta() };
     }
 }
 
-const noteParser = z
-    .object({
-        _uid: z.string(),
-        summary: z.string(),
-        details: z.object({
-            content: z.array(z.any()),
-        }),
-    })
-    .transform((noteData) => {
-        const content = new RichTextResolver().render(noteData.details as ISbRichtext);
-        return {
-            id: noteData._uid,
-            title: noteData.summary,
-            content,
-            // content: new RichTextResolver().render(noteData.details.content[0] as ISbRichtext),
-        };
-    });
+const noteParser = z.object({
+    id: z.string(),
+    summary: z.string(),
+    details: z.string(),
+});
 export type SerigrafiaNote = z.infer<typeof noteParser>;
 
-const serigrafiaParser = z
-    .object({
-        data: z.object({
-            SerigrafiapageItem: z.object({
-                content: z.object({
-                    seo: seoParser,
-                    title: z.string(),
-                    hero_image: heroImageParser,
-                    notes: z.array(noteParser),
-                }),
-            }),
-        }),
-    })
-    .transform(({ data }) => {
-        return data.SerigrafiapageItem.content;
-    });
+export type SerigrafiaBlock = {
+    seo: seoTagsParams;
+    title: string;
+    heroImage: HeroImage;
+    details: Detail[];
+};
 
-export type SerigrafiaBlock = z.infer<typeof serigrafiaParser>;
+export const detailParser = z.object({
+    id: z.string(),
+    summary: z.string(),
+    content: z.string(),
+});
+const getSerigrafiaPageParser = (backendFileService: BackendFileService) =>
+    z
+        .object({
+            main_image_desktop: z.string(),
+            main_image_mobile: z.string(),
+            meta_description: z.string(),
+            meta_title: z.string(),
+            slug: z.string(),
+            social_image: z.string(),
+            title: z.string(),
+            main_image_alt_text: z.string(),
+            expand: z.object({
+                details: z.array(detailParser),
+            }),
+        })
+        .transform(function toSerigrafiaBlock(rawData): SerigrafiaBlock {
+            return {
+                seo: {
+                    title: rawData.meta_title,
+                    description: rawData.meta_description,
+                    socialImage: backendFileService.getUrl(rawData.social_image, COLLECTION, RECORD_ID),
+                },
+                heroImage: {
+                    desktop: {
+                        url: backendFileService.getUrl(rawData.main_image_desktop, COLLECTION, RECORD_ID),
+                        alt: rawData.main_image_alt_text,
+                    },
+                    mobile: {
+                        url: backendFileService.getUrl(rawData.main_image_mobile, COLLECTION, RECORD_ID),
+                        alt: rawData.main_image_alt_text,
+                    },
+                },
+                title: rawData.title,
+                details: rawData.expand.details,
+            };
+        });
 
 export type SerigrafiaResult = {
     serigrafiaBlock: SerigrafiaBlock;

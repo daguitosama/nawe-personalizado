@@ -1,19 +1,23 @@
-import { type HeroImage } from "services/content/Home";
+import { Image } from "services/types";
 
-export function HeroImage({ hero_image }: { hero_image: HeroImage }) {
+export type HeroImage = {
+    desktop: Image;
+    mobile: Image;
+};
+export function HeroImage({ heroImage }: { heroImage: HeroImage }) {
     return (
         <div>
             <div className='relative w-full h-[390px] mx-auto md:hidden'>
                 <img
-                    src={hero_image.mobile.url}
-                    alt={hero_image.mobile.alt}
+                    src={heroImage.mobile.url}
+                    alt={heroImage.mobile.alt}
                     className='w-full h-full absolute object-cover '
                 />
             </div>
             <div className='relative w-full h-[400px] hidden md:block'>
                 <img
-                    src={hero_image.desktop.url}
-                    alt={hero_image.desktop.alt}
+                    src={heroImage.desktop.url}
+                    alt={heroImage.desktop.alt}
                     className='w-full h-full absolute object-cover'
                 />
             </div>

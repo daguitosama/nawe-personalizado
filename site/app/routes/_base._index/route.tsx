@@ -122,7 +122,7 @@ export default function Index() {
     const loaderData = useLoaderData<typeof loader>();
     return (
         <div>
-            <HeroImage hero_image={loaderData.home.heroImage} />
+            <HeroImage heroImage={loaderData.home.heroImage} />
             <FramedContent className='mt-[50px] pb-10 grid gap-16'>
                 <ServicesBlock block={loaderData.home.servicesBlock} />
                 <ArticlesBlock block={loaderData.home.articlesBlock} />
