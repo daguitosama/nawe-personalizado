@@ -52,7 +52,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         },
         {
             headers: {
-                "Server-Timing": `getGlobalSettings;desc="(st) Get Global Settings";dur=${delta}`,
+                "Server-Timing": `getBusinessData;desc="(pb) Get Business Data";dur=${delta}`,
             },
         }
     );

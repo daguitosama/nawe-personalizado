@@ -27,7 +27,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         },
         {
             headers: {
-                "Server-Timing": `serigrafia.get;desc="(st) Get Serigrafia";dur=${delta}`,
+                "Server-Timing": `serigrafia.get;desc="(pb) Get Serigrafia";dur=${delta}`,
             },
         }
     );
