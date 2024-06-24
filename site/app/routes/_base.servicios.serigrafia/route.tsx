@@ -187,7 +187,6 @@ function OrderForm() {
                 <Input
                     type='number'
                     min={20}
-                    defaultValue={20}
                     value={numberOfArticles}
                     onChange={(evt) => setNumberOfArticles(parseInt(evt.target.value))}
                 />
@@ -199,7 +198,6 @@ function OrderForm() {
                 <H3>Locación 1</H3>
                 <Input
                     type='text'
-                    defaultValue={20}
                     value={location1}
                     placeholder='Ej: por delante'
                     onChange={(evt) => setLocation1(evt.target.value)}
@@ -243,7 +241,6 @@ function OrderForm() {
                         <H3>Locación 2</H3>
                         <Input
                             type='text'
-                            defaultValue={20}
                             value={location2}
                             placeholder='Ej: por delante'
                             onChange={(evt) => setLocation2(evt.target.value)}
