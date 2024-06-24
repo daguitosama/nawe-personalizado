@@ -21,7 +21,6 @@ export class Serigrafia {
         const data = await this.client.collection(COLLECTION).getOne<SerigrafiaBlock>(RECORD_ID, {
             expand: "details",
         });
-        // console.log(JSON.stringify(data, null, 2));
         const serigrafiaBlock = getSerigrafiaPageParser(this.backendFileService).parse(data);
         return { serigrafiaBlock, delta: timer.delta() };
     }

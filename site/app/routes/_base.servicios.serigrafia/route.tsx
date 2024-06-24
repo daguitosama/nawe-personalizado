@@ -15,7 +15,6 @@ import { RadioGroupCombo, RadioGroupOption } from "~/components/RadioGroup";
 import { WhatsAppIcon } from "~/components/WhatsAppIcon";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-    await context.content.serigrafia.get();
     const { serigrafiaBlock, delta } = await context.content.serigrafia.get();
     return json(
         {
@@ -170,7 +169,7 @@ function OrderForm() {
             </FormField>
 
             <FormField>
-                <H2>Prenda o soporte</H2>
+                <H2>Superficie</H2>
                 <div>
                     <Input
                         type='text'
