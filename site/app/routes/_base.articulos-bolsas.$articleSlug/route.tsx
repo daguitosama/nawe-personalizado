@@ -2,9 +2,7 @@
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData, useMatches } from "@remix-run/react";
-import clsx from "clsx";
 import { useState } from "react";
-import { ArticleOptionColor } from "services/content/Article";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading } from "~/components/Heading";
 import { HeroImage } from "~/components/HeroImage";
@@ -16,18 +14,18 @@ import { getMessageLink } from "~/lib.client/utils";
 export async function loader({ params, context }: LoaderFunctionArgs) {
     const articleSlug = params.articleSlug || "";
 
-    const { articleBlock, delta } = await context.content.articleService.get(articleSlug);
-    if (!articleBlock) {
+    const { bolsaBlock, delta } = await context.content.bolsaService.get(articleSlug);
+    if (!bolsaBlock) {
         return json(
             {
                 meta: null,
-                articleBlock,
+                bolsaBlock,
             },
             {
                 headers: {
                     status: "404",
                     statusText: "Not Found | NAWE Personalizado.",
-                    "Server-Timing": `etiquetas.get;desc="(pb) Get Etiquetas";dur=${delta}`,
+                    "Server-Timing": `bolsa.get;desc="(pb) Get Bolsa";dur=${delta}`,
                 },
             }
         );
@@ -35,14 +33,14 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
     return json(
         {
             meta: context.content.seoService.getMetaTags({
-                seo: articleBlock.seo,
-                relativeRoute: "/servicios/serigrafia",
+                seo: bolsaBlock.seo,
+                relativeRoute: `/article-bolsa/${articleSlug}`,
             }),
-            articleBlock,
+            bolsaBlock,
         },
         {
             headers: {
-                "Server-Timing": `etiquetas.get;desc="(pb) Get Etiquetas";dur=${delta}`,
+                "Server-Timing": `bolsa.get;desc="(pb) Get Bolsa";dur=${delta}`,
             },
         }
     );
@@ -58,28 +56,25 @@ export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
-    if (!data || !data.articleBlock) return [];
+    if (!data || !data.bolsaBlock) return [];
     return data.meta;
 };
 
 export default function ArticleRoute() {
-    const { articleBlock } = useLoaderData<typeof loader>();
-    if (!articleBlock) {
+    const { bolsaBlock } = useLoaderData<typeof loader>();
+    if (!bolsaBlock) {
         return <NotFoundArticle />;
     }
-    const { title, colors } = articleBlock;
+    const { title } = bolsaBlock;
     return (
         <div>
-            <HeroImage heroImage={articleBlock.heroImage} />
+            <HeroImage heroImage={bolsaBlock.heroImage} />
             <FramedContent className='flex flex-col gap-20'>
                 <div>
                     <Heading variant='default'>{title}</Heading>
-                    <div dangerouslySetInnerHTML={{ __html: articleBlock.description }} />
+                    <div dangerouslySetInnerHTML={{ __html: bolsaBlock.description }} />
                 </div>
-                <OrderForm
-                    colorOptions={colors}
-                    articleName={title}
-                />
+                <OrderForm articleName={title} />
             </FramedContent>
         </div>
     );
@@ -93,7 +88,7 @@ function NotFoundArticle() {
     );
 }
 
-function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionColor[]; articleName: string }) {
+function OrderForm({ articleName }: { articleName: string }) {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [rootMatch, baseMatch, thisMatch] = useMatches();
 
@@ -106,7 +101,6 @@ function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionC
     //
     const [quantity, setQuantity] = useState<number>(100);
     //
-    const [color, setColor] = useState<string>(colorOptions[0].name);
     const clientNeedDesignServiceOptions: RadioGroupOption[] = [
         {
             id: "ds-op-1",
@@ -138,37 +132,6 @@ function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionC
             </FormField>
 
             <FormField>
-                <H2>Color</H2>
-                <ul className='flex items-center justify-start gap-3'>
-                    {colorOptions.map((colorOption) => {
-                        return (
-                            <li
-                                className='block'
-                                key={colorOption.id}
-                            >
-                                <button
-                                    onClick={() => setColor(colorOption.name)}
-                                    className={clsx(
-                                        "p-2 rounded-xl transition-all duration-200",
-                                        color == colorOption.name
-                                            ? "border border-black shadow-xl"
-                                            : "border border-gray-400 shadow-md "
-                                    )}
-                                >
-                                    <div
-                                        className='w-10 h-10 rounded-full '
-                                        style={{ backgroundColor: `#${colorOption.colorCode}` }}
-                                        aria-hidden
-                                    ></div>
-                                    <span className='sr-only'>{colorOption.name}</span>
-                                </button>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </FormField>
-
-            <FormField>
                 <H2>Asesoramiento en cuanto al diseño gráfico</H2>
                 <RadioGroupCombo
                     options={clientNeedDesignServiceOptions}
@@ -184,7 +147,6 @@ function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionC
                     phone,
                     craftOrderMessage({
                         title: articleName,
-                        color,
                         quantity,
                         clientNeedsDesign,
                     })
@@ -199,12 +161,10 @@ function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionC
 
 function craftOrderMessage({
     title,
-    color,
     quantity,
     clientNeedsDesign,
 }: {
     title: string;
-    color: string;
     quantity: number;
     clientNeedsDesign: boolean;
 }) {
@@ -213,7 +173,6 @@ function craftOrderMessage({
 
     - modelo: ${title}
     - cantidad: ${quantity} 
-    - color: ${color}
     - necesito asesoramiento con el diseño: ${clientNeedsDesign ? "Si" : "No"}
 
     *vía web*

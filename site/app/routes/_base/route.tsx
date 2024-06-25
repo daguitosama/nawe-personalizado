@@ -33,11 +33,11 @@ export async function loader({ context }: LoaderFunctionArgs) {
                 },
             ],
         },
-        {
-            id: "2",
-            label: "Artículos Importados y Confeccionados ",
-            route: "/articulos-importados-y-confeccionados",
-        },
+        // {
+        //     id: "2",
+        //     label: "Artículos Importados y Confeccionados ",
+        //     route: "/articulos-importados-y-confeccionados",
+        // },
         {
             id: "3",
             label: "Contactos",

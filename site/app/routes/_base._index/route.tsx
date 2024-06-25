@@ -125,7 +125,7 @@ export default function Index() {
             <HeroImage heroImage={loaderData.home.heroImage} />
             <FramedContent className='mt-[50px] pb-10 grid gap-16'>
                 <ServicesBlock block={loaderData.home.servicesBlock} />
-                <ArticlesBlock block={loaderData.home.articlesBlock} />
+                {/* <ArticlesBlock block={loaderData.home.articlesBlock} /> */}
             </FramedContent>
         </div>
     );
