@@ -36,7 +36,7 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
         {
             meta: context.content.seoService.getMetaTags({
                 seo: articleBlock.seo,
-                relativeRoute: "/servicios/serigrafia",
+                relativeRoute: `/article-etiquetas/${articleSlug}`,
             }),
             articleBlock,
         },
