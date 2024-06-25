@@ -12,15 +12,16 @@ interface ArticleOptionColor {
     colorCode: string;
 }
 
-interface ArticleCard {
+export interface ArticleCard {
     id: string;
     image: string;
     imageAltText: string;
     title: string;
     priceUSD: number;
     colors: ArticleOptionColor[];
+    slug: string;
 }
-interface ArticlesGroup {
+export interface ArticlesGroup {
     id: string;
     title: string;
     articleCards: ArticleCard[];
@@ -31,7 +32,7 @@ export interface EtiquetasBlock {
     title: string;
     heroImage: HeroImage;
     bodyCopy: string;
-    articlesGroupsGrid: ArticlesGroup[];
+    articlesGroups: ArticlesGroup[];
 }
 
 export class EtiquetasService {
@@ -132,7 +133,7 @@ export const getEtiquetasParser = (backendFileService: BackendFileService) =>
             updated: z.string(),
         })
         .transform(function toEtiquetasBlock(rawData): EtiquetasBlock {
-            const articlesGroupsGrid: ArticlesGroup[] = rawData.expand.article_group_grid.expand.article_groups.map(
+            const articlesGroups: ArticlesGroup[] = rawData.expand.article_group_grid.expand.article_groups.map(
                 function toArticleGroup(rawArticleGroup): ArticlesGroup {
                     return {
                         id: rawArticleGroup.id,
@@ -144,6 +145,7 @@ export const getEtiquetasParser = (backendFileService: BackendFileService) =>
                                 imageAltText: rawArticle.main_image_alt_text,
                                 priceUSD: rawArticle.price_usd,
                                 title: rawArticle.title,
+                                slug: rawArticle.slug,
                                 colors: rawArticle.expand.option_colors.map(function toArticleOptionColors(
                                     rawColor
                                 ): ArticleOptionColor {
@@ -176,6 +178,6 @@ export const getEtiquetasParser = (backendFileService: BackendFileService) =>
                     },
                 },
                 bodyCopy: rawData.body_copy,
-                articlesGroupsGrid,
+                articlesGroups,
             };
         });

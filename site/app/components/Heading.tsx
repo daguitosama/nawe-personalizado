@@ -49,12 +49,36 @@ export const Heading = ({ children, variant = "default", ...props }: HeadingProp
 /**
  * Heading
  */
-export const HeadingL2 = ({ children, ...props }: HeadingProps) => {
+export const HeadingL2 = ({ children, variant = "default", ...props }: HeadingProps) => {
+    if (variant == "with-borders") {
+        return (
+            <div className='w-full py-[22px] border-t-black border-b-black border-t border-b'>
+                <h2
+                    {...props}
+                    className='text-lg font-bold text-center '
+                >
+                    {children}
+                </h2>
+            </div>
+        );
+    }
+    if (variant == "fluid") {
+        return (
+            <div className='w-full py-8 md:py-10'>
+                <h2
+                    {...props}
+                    className='text-lg md:text-2xl font-bold'
+                >
+                    {children}
+                </h2>
+            </div>
+        );
+    }
     return (
-        <div className='w-full py-[22px] border-t-black border-b-black border-t border-b'>
+        <div className='w-full py-[22px]'>
             <h2
                 {...props}
-                className='text-xl font-bold text-center '
+                className='text-lg font-bold'
             >
                 {children}
             </h2>
