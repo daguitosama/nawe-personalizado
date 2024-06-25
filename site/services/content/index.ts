@@ -1,7 +1,9 @@
 import { Env } from "getLoadContext";
 import PocketBase from "pocketbase";
+import { ArticleService } from "./Article";
 import { BackendFileService } from "./BackendFileService";
 import { BusinessDataService } from "./BusinessData";
+import { BolsasService } from "./Empaquetado";
 import { EtiquetasService } from "./Etiquetas";
 import { SeoService } from "./Seo";
 import { Serigrafia } from "./Serigrafia";
@@ -14,6 +16,8 @@ export class Content {
     public seoService: SeoService;
     public serigrafia: Serigrafia;
     public etiquetasService: EtiquetasService;
+    public articleService: ArticleService;
+    public bolsasService: BolsasService;
     constructor(env: Env) {
         this.env = env;
         this.client = new PocketBase(this.env.BACKEND_API_URL);
@@ -22,5 +26,7 @@ export class Content {
         this.backendFileService = new BackendFileService(this.env);
         this.serigrafia = new Serigrafia(this.client, this.backendFileService);
         this.etiquetasService = new EtiquetasService(this.client, this.backendFileService);
+        this.articleService = new ArticleService(this.client, this.backendFileService);
+        this.bolsasService = new BolsasService(this.client, this.backendFileService);
     }
 }

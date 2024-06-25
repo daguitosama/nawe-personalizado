@@ -5,14 +5,15 @@ import * as Toggle from "@radix-ui/react-toggle";
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
 import { Link, useLoaderData, useMatches } from "@remix-run/react";
-import clsx from "clsx";
-import { ComponentPropsWithoutRef, useState } from "react";
+import { useState } from "react";
 import { Detail } from "services/types";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading } from "~/components/Heading";
 import { HeroImage } from "~/components/HeroImage";
 import { RadioGroupCombo, RadioGroupOption } from "~/components/RadioGroup";
 import { WhatsAppIcon } from "~/components/WhatsAppIcon";
+import { FormField, H2, H3, Input } from "~/components/form";
+import { getMessageLink } from "~/lib.client/utils";
 
 export async function loader({ context }: LoaderFunctionArgs) {
     const { serigrafiaBlock, delta } = await context.content.serigrafia.get();
@@ -114,8 +115,7 @@ function OrderForm() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [rootMatch, baseMatch, serviciosMatch, thisMatch] = useMatches();
     // @ts-ignore
-    const phone = baseMatch.data?.business_data?.whatsapp_phone || "";
-    // const wLink = getMessageLink(phone, order);
+    const phone = baseMatch.data?.businessData?.whatsapp_phone || "";
     // //
     // FORM ORDER OPTIONS
     //
@@ -296,46 +296,6 @@ function OrderForm() {
             </Link>
         </div>
     );
-}
-
-function H2({ children, className, ...props }: ComponentPropsWithoutRef<"h2">) {
-    return (
-        <h2
-            className={clsx("font-bold text-lg", className)}
-            {...props}
-        >
-            {children}
-        </h2>
-    );
-}
-
-function H3({ children, className, ...props }: ComponentPropsWithoutRef<"h2">) {
-    return (
-        <h3
-            className={clsx("font-bold text-lg", className)}
-            {...props}
-        >
-            {children}
-        </h3>
-    );
-}
-
-function Input({ className, type, ...props }: ComponentPropsWithoutRef<"input">) {
-    return (
-        <input
-            type={type || "text"}
-            {...props}
-            className={clsx("border border-black rounded-lg p-2 w-full", className)}
-        />
-    );
-}
-
-function FormField({ children, className }: ComponentPropsWithoutRef<"div">) {
-    return <div className={clsx("grid gap-4", className)}>{children}</div>;
-}
-
-function getMessageLink(phoneNumber: string, message: string) {
-    return `https://wa.me/${phoneNumber.replace(/\s/g, "")}?text=${encodeURIComponent(message)}&type=phone_number&app_absent=0`;
 }
 
 function craftOrderMessage({
