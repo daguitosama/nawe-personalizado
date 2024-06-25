@@ -1,0 +1,13 @@
+[Unit]
+Description=PocketBase Service
+After=network.target
+
+[Service]
+ExecStart=/root/sites/nawe/backend/pocketbase serve
+Restart=always
+User=root
+Group=root
+WorkingDirectory=/root/sites/nawe/backend
+
+[Install]
+WantedBy=multi-user.target
