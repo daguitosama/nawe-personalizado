@@ -49,9 +49,7 @@ export async function loader({ params, context }: LoaderFunctionArgs) {
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
-    const fullTimingHeader = parentHeaders
-        .get("Server-Timing")
-        ?.concat(", ", loaderHeaders.get("Server-Timing") as string) as string;
+    const fullTimingHeader = parentHeaders.get("Server-Timing")?.concat(", ", loaderHeaders.get("Server-Timing") as string) as string;
     return {
         "Server-Timing": fullTimingHeader,
     };
@@ -150,9 +148,7 @@ function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionC
                                     onClick={() => setColor(colorOption.name)}
                                     className={clsx(
                                         "p-2 rounded-xl transition-all duration-200",
-                                        color == colorOption.name
-                                            ? "border border-black shadow-xl"
-                                            : "border border-gray-400 shadow-md "
+                                        color == colorOption.name ? "border border-black shadow-xl" : "border border-gray-400 shadow-md "
                                     )}
                                 >
                                     <div
@@ -189,6 +185,7 @@ function OrderForm({ colorOptions, articleName }: { colorOptions: ArticleOptionC
                         clientNeedsDesign,
                     })
                 )}
+                data-test-id='order-link'
                 className=' rounded-lg p-2 text-white bg-black flex items-center justify-center gap-4'
             >
                 <WhatsAppIcon className='size-6 fill-white' /> <span className='text-xl font-medium'>Realizar Orden</span>

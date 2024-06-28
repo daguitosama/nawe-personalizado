@@ -73,12 +73,7 @@ export function Navigation({ links, signal_nav_toggle }: { links: MenuLink[]; si
                                             close_menu();
                                         }}
                                     >
-                                        <Logo
-                                            className={clsx(
-                                                "w-[60px] transition-transform duration-500",
-                                                is_open ? "scale-105" : ""
-                                            )}
-                                        />
+                                        <Logo className={clsx("w-[60px] transition-transform duration-500", is_open ? "scale-105" : "")} />
                                         <span className='font-medium text-base tracking-widest'>Estudio</span>
                                     </Link>
                                 </div>
@@ -179,13 +174,7 @@ function MenuNavigationLinks({ links, on_click }: { links: MenuLink[]; on_click:
         </ul>
     );
 }
-function MenuCompoundNavigationLink({
-    compound_link,
-    on_click,
-}: {
-    compound_link: CompoundNavigationLink;
-    on_click: () => void;
-}) {
+function MenuCompoundNavigationLink({ compound_link, on_click }: { compound_link: CompoundNavigationLink; on_click: () => void }) {
     return (
         <div>
             <h2 className='font-medium text-lg py-[12px]'>{compound_link.label}</h2>
@@ -280,6 +269,7 @@ export function Logo({ className }: { className: string }) {
             <img
                 src='/img/Logo.jpg'
                 alt='NAWE Estudio'
+                data-test-id='logo'
             />
         </div>
     );

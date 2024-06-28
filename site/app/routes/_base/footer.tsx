@@ -25,6 +25,7 @@ export function Footer({ business_data }: { business_data: BusinessData }) {
                                     href={`https://wa.me/${cleanPhoneNumber(whatsapp_phone)}?text=Hola`}
                                     target='_blank'
                                     className='border-b border-b-black text-sm'
+                                    data-test-id='whatsapp_phone'
                                 >
                                     {whatsapp_phone}
                                 </a>

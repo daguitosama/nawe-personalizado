@@ -6,7 +6,6 @@ import { BolsasCard, BolsasGroup } from "services/content/Empaquetado";
 import { FramedContent } from "~/components/FramedContent";
 import { Heading } from "~/components/Heading";
 import { HeroImage } from "~/components/HeroImage";
-// import { BolsasCard, BolsasGroup } from "~/services/content/Empaquetado";
 
 export async function loader({ context }: LoaderFunctionArgs) {
     const { delta, bolsasBlock } = await context.content.bolsasService.get();
@@ -27,9 +26,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
 }
 
 export const headers: HeadersFunction = ({ loaderHeaders, parentHeaders }) => {
-    const fullTimingHeader = parentHeaders
-        .get("Server-Timing")
-        ?.concat(", ", loaderHeaders.get("Server-Timing") as string) as string;
+    const fullTimingHeader = parentHeaders.get("Server-Timing")?.concat(", ", loaderHeaders.get("Server-Timing") as string) as string;
     return {
         "Server-Timing": fullTimingHeader,
     };
@@ -40,7 +37,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     return data.meta;
 };
 
-export default function Etiquetas() {
+export default function Empaquetado() {
     const { bolsasBlock } = useLoaderData<typeof loader>();
     return (
         <div className=''>
