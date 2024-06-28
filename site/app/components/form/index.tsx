@@ -28,6 +28,7 @@ export function Input({ className, type, ...props }: ComponentPropsWithoutRef<"i
         <input
             type={type || "text"}
             {...props}
+            required
             className={clsx("border border-black rounded-lg p-2 w-full", className)}
         />
     );

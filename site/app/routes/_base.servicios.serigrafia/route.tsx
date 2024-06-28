@@ -4,7 +4,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import * as Toggle from "@radix-ui/react-toggle";
 import type { HeadersFunction, LoaderFunctionArgs, MetaFunction } from "@remix-run/cloudflare";
 import { json } from "@remix-run/cloudflare";
-import { Link, useLoaderData, useMatches } from "@remix-run/react";
+import { useLoaderData, useMatches } from "@remix-run/react";
 import { useState } from "react";
 import { Detail } from "services/types";
 import { FramedContent } from "~/components/FramedContent";
@@ -155,8 +155,37 @@ function OrderForm() {
     //
     const [location2Enabled, setLocation2Enabled] = useState(false);
     //
+
+    const messageLink = getMessageLink(
+        phone,
+        craftOrderMessage({
+            clientHasArticle,
+            prenda,
+            numberOfArticles,
+            location1,
+            location2,
+            location1Size,
+            location2Size,
+            location1NumberOfColors,
+            location2NumberOfColors,
+            location2Enabled,
+        })
+    );
+
+    function onSubmit(evt: React.FormEvent<HTMLFormElement>) {
+        evt.preventDefault();
+        const form = evt.target as HTMLFormElement;
+
+        if (form.checkValidity()) {
+            window.location.href = messageLink;
+        }
+    }
+
     return (
-        <div className='flex flex-col gap-10'>
+        <form
+            onSubmit={onSubmit}
+            className='flex flex-col gap-10'
+        >
             <FormField>
                 <H2>Articulo a personalizar</H2>
                 <RadioGroupCombo
@@ -270,7 +299,7 @@ function OrderForm() {
                 </div>
             )}
 
-            <Link
+            {/* <Link
                 target='_blank'
                 rel='noreferrer'
                 to={getMessageLink(
@@ -292,8 +321,14 @@ function OrderForm() {
                 data-test-id='order-link'
             >
                 <WhatsAppIcon className='size-6 fill-white' /> <span className='text-xl font-medium'>Realizar Orden</span>
-            </Link>
-        </div>
+            </Link> */}
+            <button
+                className=' rounded-lg p-2 text-white bg-black flex items-center justify-center gap-4'
+                data-test-id='order-link'
+            >
+                <WhatsAppIcon className='size-6 fill-white' /> <span className='text-xl font-medium'>Realizar Orden</span>
+            </button>
+        </form>
     );
 }
 
