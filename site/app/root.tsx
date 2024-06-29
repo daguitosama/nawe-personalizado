@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/cloudflare";
+import type { LinksFunction, MetaFunction } from "@remix-run/cloudflare";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import font_styles from "~/fonts.css?url";
 import global_styles from "~/global.css?url";
@@ -30,6 +30,15 @@ export const links: LinksFunction = () => [
         href: "/site.webmanifest",
     },
 ];
+
+export const meta: MetaFunction = () => {
+    return [
+        {
+            name: "google-site-verification",
+            content: "5NdU8AzqoSCQbkPCKgtaaQOFiC0YnFPIS-DmT8nKn8g",
+        },
+    ];
+};
 
 export default function App() {
     return (
