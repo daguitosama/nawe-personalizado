@@ -196,7 +196,7 @@ function OrderForm() {
             </FormField>
 
             <FormField>
-                <H2>Superficie</H2>
+                <H2>Soporte</H2>
                 <div>
                     <Input
                         type='text'
